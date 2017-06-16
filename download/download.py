@@ -1,16 +1,12 @@
 import os
 import os.path as op
-import numpy as np
 from subprocess import check_output
 from zipfile import ZipFile
-import logging
-import urllib
-
-logger = logging.getLogger('download')
+from mne.utils import _fetch_file
 
 
 def download(url, name, root_destination='~/data/', zipfile=False,
-             replace=False):
+             replace=False, verbose=False):
     """Download a URL.
 
     This will download a file and store it in a '~/data/` folder,
@@ -68,7 +64,7 @@ def download(url, name, root_destination='~/data/', zipfile=False,
     elif zipfile is True:
         print('Extracting zip file...')
         path_temp = op.join(temp_dir, name)
-        _fetch_file(download_path, path_temp)
+        _fetch_file(download_path, path_temp, verbose=verbose)
         myzip = ZipFile(path_temp)
         myzip.extractall(out_path)
         os.remove(path_temp)
@@ -99,86 +95,3 @@ def _convert_url_to_downloadable(url):
     else:
         out = url
     return out
-
-
-def _fetch_file(url, file_name, print_destination=True, resume=True,
-                hash_=None, timeout=10., verbose=False):
-    """Load requested file, downloading it if needed or requested.
-
-    Parameters
-    ----------
-    url: string
-        The url of file to be downloaded.
-    file_name: string
-        Name, along with the path, of where downloaded file will be saved.
-    print_destination: bool, optional
-        If true, destination of where file was saved will be printed after
-        download finishes.
-    resume: bool, optional
-        If true, try to resume partially downloaded files.
-    hash_ : str | None
-        The hash of the file to check. If None, no checking is
-        performed.
-    timeout : float
-        The URL open timeout.
-    verbose : bool
-        Verbose level for the HTTP request.
-    """
-    # Adapted from NISL:
-    # https://github.com/nisl/tutorial/blob/master/nisl/datasets.py
-    if hash_ is not None and (not isinstance(hash_, string_types) or
-                              len(hash_) != 32):
-        raise ValueError('Bad hash value given, should be a 32-character '
-                         'string:\n%s' % (hash_,))
-    temp_file_name = file_name + ".part"
-    try:
-        # Check file size and displaying it alongside the download url
-        u = urllib.request.urlopen(url, timeout=timeout)
-        u.close()
-        # this is necessary to follow any redirects
-        url = u.geturl()
-        u = urllib.request.urlopen(url, timeout=timeout)
-        try:
-            file_size = int(u.headers.get('Content-Length', '1').strip())
-        finally:
-            u.close()
-            del u
-        logger.info('Downloading data from %s (%s)\n'
-                    % (url, sizeof_fmt(file_size)))
-
-        # Triage resume
-        if not os.path.exists(temp_file_name):
-            resume = False
-        if resume:
-            with open(temp_file_name, 'rb', buffering=0) as local_file:
-                local_file.seek(0, 2)
-                initial_size = local_file.tell()
-            del local_file
-        else:
-            initial_size = 0
-        # This should never happen if our functions work properly
-        if initial_size > file_size:
-            raise RuntimeError('Local file (%s) is larger than remote '
-                               'file (%s), cannot resume download'
-                               % (sizeof_fmt(initial_size),
-                                  sizeof_fmt(file_size)))
-
-        scheme = urllib.parse.urlparse(url).scheme
-        fun = _get_http if scheme in ('http', 'https') else _get_ftp
-        fun(url, temp_file_name, initial_size, file_size, verbose)
-
-        # check md5sum
-        if hash_ is not None:
-            logger.info('Verifying download hash.')
-            md5 = md5sum(temp_file_name)
-            if hash_ != md5:
-                raise RuntimeError('Hash mismatch for downloaded file %s, '
-                                   'expected %s but got %s'
-                                   % (temp_file_name, hash_, md5))
-        shutil.move(temp_file_name, file_name)
-        if print_destination is True:
-            logger.info('File saved as %s.\n' % file_name)
-    except Exception:
-        logger.error('Error while fetching file %s.'
-                     ' Dataset fetching aborted.' % url)
-        raise

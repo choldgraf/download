@@ -2,3 +2,4 @@ requests
 numpy
 download
 matplotlib
+mne
