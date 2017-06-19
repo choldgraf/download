@@ -2,7 +2,7 @@
 import os
 import os.path as op
 from subprocess import check_output
-import urllib
+from six.moves import urllib
 from zipfile import ZipFile
 from tqdm import tqdm
 import logging
@@ -199,7 +199,7 @@ def _fetch_file(url, file_name, print_destination=True, resume=True,
             tqdm.write('File saved as %s.\n' % file_name)
     except Exception as ee:
         raise RuntimeError('Error while fetching file %s.'
-                           ' Dataset fetching aborted.\nErro: %s' % (url, ee))
+                           ' Dataset fetching aborted.\nError: %s' % (url, ee))
 
 
 def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
