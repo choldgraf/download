@@ -8,8 +8,7 @@
 import os
 import setuptools
 from numpy.distutils.core import setup
-
-version = "0.1"
+from download import __version__
 
 descr = """A quick module to help downloading files using python."""
 
@@ -20,7 +19,7 @@ MAINTAINER_EMAIL = 'choldgraf@gmail.com'
 URL = 'https://github.com/choldgraf/download'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/choldgraf/download'
-VERSION = version
+VERSION = __version__
 
 
 if __name__ == "__main__":
