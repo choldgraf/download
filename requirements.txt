@@ -1,5 +1,1 @@
-requests
-numpy
-download
-matplotlib
-mne
+tqdm
