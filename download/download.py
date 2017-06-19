@@ -10,6 +10,13 @@ from math import log, ceil
 import time
 import sys
 import shutil
+import tempfile
+import ftplib
+
+if sys.version_info[0] == 3:
+    string_types = str
+else:
+    string_types = basestring
 
 
 def download(url, name, root_destination='~/data/', zipfile=False,
@@ -333,3 +340,26 @@ def sizeof_fmt(num):
         return '0 bytes'
     if num == 1:
         return '1 byte'
+
+
+class _TempDir(str):
+    """Create and auto-destroy temp dir.
+
+    This is designed to be used with testing modules. Instances should be
+    defined inside test functions. Instances defined at module level can not
+    guarantee proper destruction of the temporary directory.
+
+    When used at module level, the current use of the __del__() method for
+    cleanup can fail because the rmtree function may be cleaned up before this
+    object (an alternative could be using the atexit module instead).
+    """
+
+    def __new__(self):  # noqa: D105
+        new = str.__new__(self, tempfile.mkdtemp(prefix='tmp_download_tempdir_'))
+        return new
+
+    def __init__(self):  # noqa: D102
+        self._path = self.__str__()
+
+    def __del__(self):  # noqa: D105
+        shutil.rmtree(self._path, ignore_errors=True)
