@@ -197,9 +197,9 @@ def _fetch_file(url, file_name, print_destination=True, resume=True,
         shutil.move(temp_file_name, file_name)
         if print_destination is True:
             tqdm.write('File saved as %s.\n' % file_name)
-    except Exception:
+    except Exception as ee:
         raise RuntimeError('Error while fetching file %s.'
-                           ' Dataset fetching aborted.' % url)
+                           ' Dataset fetching aborted.\nErro: %s' % (url, ee))
 
 
 def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
