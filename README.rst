@@ -1,3 +1,8 @@
+.. image:: https://codecov.io/gh/choldgraf/download/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/choldgraf/download
+
+.. image:: https://travis-ci.org/choldgraf/download.svg?branch=master
+
 Download
 --------
 A quick helper module to download files online. This draws heavily from the
@@ -18,3 +23,20 @@ Either clone this repository and install with:
 or, simply install with ``pip``:
 
   pip install download
+
+Usage
+-----
+
+Download a file on the web is as easy as::
+
+  from download import download
+  path = download(url, file_name, file_path)
+
+a file called ``file_name`` will be downloaded to the folder of ``file_path``.
+
+If your file is a zip file, you can add the flag::
+
+  path = download(url, file_name, file_path, zipfile=True)
+
+in this case, the file will be downloaded, and then unzipped into the folder
+specified by `file_name`.

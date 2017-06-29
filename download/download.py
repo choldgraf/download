@@ -86,8 +86,8 @@ def download(url, name, root_destination='~/data/', zipfile=False,
             tqdm.write('Extracting zip file...')
         path_temp = op.join(temp_dir, name)
         _fetch_file(download_path, path_temp, verbose=verbose)
-        myzip = ZipFile(path_temp)
-        myzip.extractall(out_path)
+        with ZipFile(path_temp) as ff:
+            myzip.extractall(out_path)
         os.remove(path_temp)
     else:
         if len(name) == 0:
