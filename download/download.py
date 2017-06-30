@@ -19,7 +19,7 @@ else:
     string_types = basestring
 
 
-def download(url, name, root_destination='~/data/', zipfile=False,
+def download(url, path, zipfile=False,
              replace=False, verbose=True):
     """Download a URL.
 
@@ -35,11 +35,9 @@ def download(url, name, root_destination='~/data/', zipfile=False,
         or google drive "share link", or a regular URL. If it
         is a share link, then it should point to a single file and
         not a folder. To download folders, zip them first.
-    name : string
-        The name / path of the file for the downloaded file, or
-        the folder to zip the data into if the file is a zipfile.
-    root_destination : string
-        The root folder where data will be downloaded.
+    path : string
+        The path where the downloaded file will be stored. If ``zipfile``
+        is True, then this must be a folder into which files will be zipped.
     zipfile : bool
         Whether the URL points to a zip file. If yes, it will be
         unzipped to ``root_destination/<name>``.
@@ -56,45 +54,42 @@ def download(url, name, root_destination='~/data/', zipfile=False,
         a zip file).
     """
     # Make sure we have directories to dump files
-    data_dir = op.expanduser(root_destination)
-    temp_dir = op.join(data_dir, 'tmp')
-    if not op.isdir(data_dir):
-        if verbose:
-            tqdm.write('Creating data folder...')
-        os.makedirs(data_dir)
+    path = op.expanduser(path)
 
-    if not op.isdir(temp_dir):
-        if verbose:
-            tqdm.write('Creating tmp folder...')
-        os.makedirs(temp_dir)
+    if len(path) == 0:
+        raise ValueError('You must specify a path. For current directory use .')
 
     download_path = _convert_url_to_downloadable(url)
 
-    # Now save to the new destination
-    out_path = op.join(data_dir, name)
-    if not op.isdir(op.dirname(out_path)):
-        if verbose:
-            tqdm.write('Creating path {} for output data'.format(out_path))
-        os.makedirs(op.dirname(out_path))
+    if replace is False and op.exists(path) and not zipfile:
+        msg = ('Replace is False and data exists, so doing nothing. '
+                'Use replace==True to re-download the data.')
+    elif zipfile:
+        # Create new folder for data if we need it
+        if not op.isdir(path):
+            if verbose:
+                tqdm.write('Creating data folder...')
+            os.makedirs(path)
 
-    if replace is False and op.exists(out_path):
-        if verbose:
-            tqdm.write('Replace is False and data exists, so doing nothing. '
-                       'Use replace==True to re-download the data.')
-    elif zipfile is True:
+        # Download the file to a temporary folder to unzip
+        path_temp = _TempDir()
+        path_temp_file = op.join(path_temp, "tmp.zip")
+        _fetch_file(download_path, path_temp_file, verbose=verbose)
+
+        # Unzip the file to the out path
         if verbose:
             tqdm.write('Extracting zip file...')
-        path_temp = op.join(temp_dir, name)
-        _fetch_file(download_path, path_temp, verbose=verbose)
-        with ZipFile(path_temp) as myzip:
-            myzip.extractall(out_path)
-        os.remove(path_temp)
+        with ZipFile(path_temp_file) as myzip:
+            myzip.extractall(path)
+        msg = 'Successfully downloaded / unzipped to {}.'.format(path)
     else:
-        if len(name) == 0:
-            raise ValueError('Cannot overwrite the root data directory')
-        _fetch_file(download_path, out_path, verbose=verbose)
-        tqdm.write('Successfully moved file to {}'.format(out_path))
-    return out_path
+        if not op.isdir(op.dirname(path)):
+            os.makedirs(op.dirname(path))
+        _fetch_file(download_path, path, verbose=verbose)
+        msg = 'Successfully downloaded file to {}.'.format(path)
+    if verbose:
+        tqdm.write(msg)
+    return path
 
 
 def _convert_url_to_downloadable(url):

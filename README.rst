@@ -5,13 +5,17 @@
 
 Download
 --------
-A tiny tool to download files online. This draws heavily from the
-`MNE-python <https://martinos.org/mne>`_ ``_fetch_file`` function. It will
+A no-frills tool to download files from the web. It will
 attempt to be smart about not downloading data that's
 already there, checking to make sure that
 there were no errors in fetching data, automatically unzipping the contents
 of downloaded zipfiles (if desired), and displaying a progress bar with
 statistics.
+
+.. note::
+
+    This draws heavily from the
+    `MNE-python <https://martinos.org/mne>`_ ``_fetch_file`` function.
 
 Installation
 ------------
@@ -30,13 +34,13 @@ Usage
 Download a file on the web is as easy as::
 
   from download import download
-  path = download(url, file_name, file_path)
+  path = download(url, file_path)
 
 a file called ``file_name`` will be downloaded to the folder of ``file_path``.
 
 If your file is a zip file, you can add the flag::
 
-  path = download(url, file_name, file_path, zipfile=True)
+  path = download(url, file_path, zipfile=True)
 
 in this case, the file will be downloaded, and then unzipped into the folder
 specified by `file_name`.

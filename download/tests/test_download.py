@@ -1,6 +1,7 @@
 from numpy.testing import assert_equal, assert_array_equal, assert_allclose
 from nose.tools import (assert_true, assert_raises, assert_not_equal,
                         assert_not_in)
+import pytest
 import os.path as op
 import os
 from download import download
@@ -45,11 +46,13 @@ def test_sizeof_fmt():
 
 def test_download_func():
     """Test the main download function."""
-    path = download('http://google.com', 'myfile.html', './')
+    tempdir = _TempDir()
+    path = download('http://google.com', op.join(tempdir, './myfile.html'))
     assert op.exists(path)
 
     url_zip = 'https://github.com/choldgraf/download/blob/master/download/tests/test.zip?raw=true'
-    path = download(url_zip, 'myfolder', './',
-                    zipfile=True)
+    path = download(url_zip, op.join(tempdir, 'myfolder'), zipfile=True)
+    # Path is created
     assert op.isdir(path)
+    # File is zipped to the right location
     assert op.exists(op.join(path, 'myfile.txt'))
