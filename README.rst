@@ -1,7 +1,9 @@
 .. image:: https://codecov.io/gh/choldgraf/download/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/choldgraf/download
+  :align: left
 
 .. image:: https://travis-ci.org/choldgraf/download.svg?branch=master
+  :align: left
 
 Download
 --------
@@ -20,11 +22,11 @@ statistics.
 Installation
 ------------
 
-Either clone this repository and install with:
+Either clone this repository and install with::
 
   python setup.py install
 
-or, simply install with ``pip``:
+or, simply install with ``pip``::
 
   pip install download
 

@@ -81,12 +81,12 @@ def download(url, path, zipfile=False,
             tqdm.write('Extracting zip file...')
         with ZipFile(path_temp_file) as myzip:
             myzip.extractall(path)
-        msg = 'Successfully downloaded / unzipped to {}.'.format(path)
+        msg = 'Successfully downloaded / unzipped to {}'.format(path)
     else:
         if not op.isdir(op.dirname(path)):
             os.makedirs(op.dirname(path))
         _fetch_file(download_path, path, verbose=verbose)
-        msg = 'Successfully downloaded file to {}.'.format(path)
+        msg = 'Successfully downloaded file to {}'.format(path)
     if verbose:
         tqdm.write(msg)
     return path
@@ -112,7 +112,7 @@ def _convert_url_to_downloadable(url):
         out = url
     return out
 
-def _fetch_file(url, file_name, print_destination=True, resume=True,
+def _fetch_file(url, file_name, resume=True,
                 hash_=None, timeout=10., verbose=True):
     """Load requested file, downloading it if needed or requested.
 
@@ -122,9 +122,6 @@ def _fetch_file(url, file_name, print_destination=True, resume=True,
         The url of file to be downloaded.
     file_name: string
         Name, along with the path, of where downloaded file will be saved.
-    print_destination: bool, optional
-        If true, destination of where file was saved will be printed after
-        download finishes.
     resume: bool, optional
         If true, try to resume partially downloaded files.
     hash_ : str | None
@@ -190,8 +187,6 @@ def _fetch_file(url, file_name, print_destination=True, resume=True,
                                    'expected %s but got %s'
                                    % (temp_file_name, hash_, md5))
         shutil.move(temp_file_name, file_name)
-        if print_destination is True:
-            tqdm.write('File saved as %s.\n' % file_name)
     except Exception as ee:
         raise RuntimeError('Error while fetching file %s.'
                            ' Dataset fetching aborted.\nError: %s' % (url, ee))

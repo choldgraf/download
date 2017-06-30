@@ -1,15 +1,19 @@
 language: python
-before_install:
-  - pip install codecov
 python:
   - "3.6"
   - "3.5"
-  - "3.4"
   - "2.7"
 install:
   - pip install -r requirements.txt
   - pip install pytest pytest-cov .
-script: py.test download --cov=download
+script:
+  - py.test download --cov=download
+
 sudo: false
 after_success:
-  - codecov
+  - chmod +x ./doc/deploy_docs.sh
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then ./doc/deploy_docs.sh; fi
+
+env:
+  global:
+    - secure: "5JQMNo6L9tOtZJe9Zodwuar9NSnv1lqDJDF1NUy6BYm/3Kg0wBTqlO8Y550WKWSnGs5JKvuAgFN0YSQfAS0Dbc60eTDZOhRPqeJdYE20vo0/gGXLrBr3Hkf4HF01m3MHefRN5NoNKCasusq82o2Qge1JcVgk2MRcCugqLJ/RR0mfoK++3MWE7vuWV9PsjzyWtaND+p1mFD3V9k0ldJSdKQ3pBYMlmgZekPhvH4Lkcd/bEEhnvgTzp3+hXHlkWlAlj9Nse00SxHfDHkY2Zl/gtbyO0X2eXUVXZ/Sel6b2L5boGTDpZOw/ozSiedbGqB7m5kYpY+/MAEkffoQ5DWKirLdf9LSik3+PrAnw3ryxw9H0y7eFgC+dXvaDnbEvTVJ9GzBmDLMfnF00Sr0O52kLK7Q3/LSDiAWeK4pYrX5/qSBcLMJgfcIth2rpqnTvrJey2k9YdIsgDoD1kLyHGh9peJ/UQCmNXt+AoDlXdz9KZTvLLZlGdWdTKgsFEFW+X0tx+66NheCEODw2Cw3j18a1s5JTJuZBrX7De8wLzVF4maKR2ANirEwbQMp0wooCVMZ2JMbAtLe1s351SEeIbmudeyuonN/SxEgfRmVmr6gK1Uj3TL1rfMvvM4u2RyxaqnDsnoeAnJESSiOGiL//vwp+T2WbgkoMkGYiQA8whAfv+ao="

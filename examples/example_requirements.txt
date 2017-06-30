@@ -1,3 +1,5 @@
 matplotlib
 pandas
 numpy
+cartopy
+geopandas
