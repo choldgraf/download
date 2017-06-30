@@ -42,3 +42,14 @@ def test_sizeof_fmt():
     assert_equal(sizeof_fmt(0), '0 bytes')
     assert_equal(sizeof_fmt(1), '1 byte')
     assert_equal(sizeof_fmt(1000), '1000 bytes')
+
+def test_download_func():
+    """Test the main download function."""
+    path = download('http://google.com', 'myfile.html', './')
+    assert op.exists(path)
+
+    url_zip = 'https://github.com/choldgraf/download/blob/master/download/tests/test.zip?raw=true'
+    path = download(url_zip, 'myfolder', './',
+                    zipfile=True)
+    assert op.isdir(path)
+    assert op.exists(op.join(path, 'myfile.txt'))
