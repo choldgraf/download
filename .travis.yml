@@ -9,7 +9,7 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install pytest pytest-cov .
-script: py.test --cov=./
+script: py.test download --cov=download
 sudo: false
 after_success:
   - codecov

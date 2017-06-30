@@ -5,7 +5,7 @@
 
 Download
 --------
-A quick helper module to download files online. This draws heavily from the
+A tiny tool to download files online. This draws heavily from the
 `MNE-python <https://martinos.org/mne>`_ ``_fetch_file`` function. It will
 attempt to be smart about not downloading data that's
 already there, checking to make sure that
