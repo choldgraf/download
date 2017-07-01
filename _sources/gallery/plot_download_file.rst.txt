@@ -77,14 +77,14 @@ using ``zipfile=True``.
  Out::
 
     Creating data folder...
-    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.2e6533b8.1498925994.8c4581f (859 kB)
+    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.2e6533b8.1498926066.8c528a1 (859 kB)
 
     Extracting zip file...
     Successfully downloaded / unzipped to ./downloaded/counties/
     ['./downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.dbf', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.cpg']
 
 
-**Total running time of the script:** ( 0 minutes  2.598 seconds)
+**Total running time of the script:** ( 0 minutes  2.817 seconds)
 
 
 
