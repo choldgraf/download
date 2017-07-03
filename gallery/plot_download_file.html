@@ -5,13 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Downloading files and zipfiles &#8212; download 0.1 documentation</title>
-    
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -27,6 +24,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Download from Dropbox, Google Drive, and Github" href="plot_download_providers.html" />
+    <link rel="prev" title="Gallery" href="index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -50,6 +49,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">shutil</span> <span class="kn">as</span> <span class="nn">sh</span>
 </pre></div>
 </div>
 <p>Downloading a file simply requires that you have a URL.</p>
@@ -74,20 +74,21 @@ using <code class="docutils literal"><span class="pre">zipfile=True</span></code
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip&quot;</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/counties/&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">zipfile</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)))</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="s1">&#39;./downloaded&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>Creating data folder...
-Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.c5070f17.1498926477.137eba2c (859 kB)
+Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.7d3fea5.1499112600.2854ed7 (859 kB)
 
 Extracting zip file...
 Successfully downloaded / unzipped to ./downloaded/counties/
 [&#39;./downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp.iso.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shx&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.dbf&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.prj&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.cpg&#39;]
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  3.393 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  3.915 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_download_file.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_file.py</span></code></a></div>
@@ -102,20 +103,43 @@ Successfully downloaded / unzipped to ./downloaded/counties/
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">download</a></h1>
+
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=choldgraf&repo=download&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Gallery</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Downloading files and zipfiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_download_providers.html">Download from Dropbox, Google Drive, and Github</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Gallery</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Gallery</a></li>
+      <li>Next: <a href="plot_download_providers.html" title="next chapter">Download from Dropbox, Google Drive, and Github</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/gallery/plot_download_file.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -134,7 +158,7 @@ Successfully downloaded / unzipped to ./downloaded/counties/
       &copy;2017, Chris Holdgraf.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

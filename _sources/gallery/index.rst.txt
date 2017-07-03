@@ -26,6 +26,26 @@ Here is a short gallery showing off ``download`` functionality:
    :hidden:
 
    /gallery/plot_download_file
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="It's also possible to download files from Github, Google Drive, and Dropbox. While you can go t...">
+
+.. only:: html
+
+    .. figure:: /gallery/images/thumb/sphx_glr_plot_download_providers_thumb.png
+
+        :ref:`sphx_glr_gallery_plot_download_providers.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /gallery/plot_download_providers
 .. raw:: html
 
     <div style='clear:both'></div>

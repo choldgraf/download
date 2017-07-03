@@ -2,10 +2,17 @@
 ./_downloads/gallery_python.zip
 ./_downloads/plot_download_file.ipynb
 ./_downloads/plot_download_file.py
+./_downloads/plot_download_providers.ipynb
+./_downloads/plot_download_providers.py
 ./_images/sphx_glr_plot_download_file_001.png
 ./_images/sphx_glr_plot_download_file_thumb.png
+./_images/sphx_glr_plot_download_providers_001.png
+./_images/sphx_glr_plot_download_providers_002.png
+./_images/sphx_glr_plot_download_providers_003.png
+./_images/sphx_glr_plot_download_providers_thumb.png
 ./_sources/gallery/index.rst.txt
 ./_sources/gallery/plot_download_file.rst.txt
+./_sources/gallery/plot_download_providers.rst.txt
 ./_sources/index.rst.txt
 ./_static/ajax-loader.gif
 ./_static/alabaster.css
@@ -34,6 +41,7 @@
 ./_static/websupport.js
 ./gallery/index.html
 ./gallery/plot_download_file.html
+./gallery/plot_download_providers.html
 ./genindex.html
 ./index.html
 ./objects.inv
