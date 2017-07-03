@@ -92,8 +92,8 @@ The same works for Google Drive content.
 
 
 Dropbox links also work, though in this case ``download`` will use
-the ``wget`` library to download the file. This is because Dropbox requires
-cookies and wget is smart about handling this.
+the ``requests`` library to download the file. This is because Dropbox
+requires cookies and requests is smart about handling this.
 
 
 
@@ -124,7 +124,7 @@ cookies and wget is smart about handling this.
     Successfully downloaded file to ./downloaded/citation3.png
 
 
-**Total running time of the script:** ( 0 minutes  2.747 seconds)
+**Total running time of the script:** ( 0 minutes  2.178 seconds)
 
 
 

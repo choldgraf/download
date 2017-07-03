@@ -92,8 +92,8 @@ Successfully downloaded file to ./downloaded/citation.png
 </pre></div>
 </div>
 <p>Dropbox links also work, though in this case <code class="docutils literal"><span class="pre">download</span></code> will use
-the <code class="docutils literal"><span class="pre">wget</span></code> library to download the file. This is because Dropbox requires
-cookies and wget is smart about handling this.</p>
+the <code class="docutils literal"><span class="pre">requests</span></code> library to download the file. This is because Dropbox
+requires cookies and requests is smart about handling this.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/s/fow6bx4owwikjug/citation.png?dl=0&quot;</span>
 <span class="n">path3</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/citation3.png&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
@@ -111,7 +111,7 @@ cookies and wget is smart about handling this.</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Successfully</span> <span class="n">downloaded</span> <span class="n">file</span> <span class="n">to</span> <span class="o">./</span><span class="n">downloaded</span><span class="o">/</span><span class="n">citation3</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.747 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  2.178 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_download_providers.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_providers.py</span></code></a></div>
