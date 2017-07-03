@@ -32,9 +32,13 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.githubpages',
-    'sphinx_gallery.gen_gallery']
+              'sphinx.ext.intersphinx',
+              'sphinx.ext.githubpages',
+              'sphinx_gallery.gen_gallery',
+              'alabaster']
+
+import alabaster
+html_theme_path = [alabaster.get_path()]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -87,6 +91,20 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+        'donate.html',
+    ]
+}
+
+html_theme_options = {
+    'github_user': 'choldgraf',
+    'github_repo': 'download',
+}
 
 # -- Options for HTML output ----------------------------------------------
 

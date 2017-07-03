@@ -8,11 +8,25 @@ install:
   - pip install pytest pytest-cov .
 script:
   - py.test download --cov=download
+  - |
+    if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then
+      # Installs
+      pip install codecov sphinx sphinx-gallery
+
+      # Code coverage
+      codecov
+
+      # Deploy doctr
+      pip install matplotlib pandas pillow
+      set -e
+      cd doc
+      make html
+      cd ..
+      pip install doctr
+      doctr deploy . --built-docs doc/_build/html
+    fi
 
 sudo: false
-after_success:
-  - chmod +x ./doc/deploy_docs.sh
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then ./doc/deploy_docs.sh; fi
 
 env:
   global:

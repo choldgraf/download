@@ -1,6 +1,4 @@
 from numpy.testing import assert_equal, assert_array_equal, assert_allclose
-from nose.tools import (assert_true, assert_raises, assert_not_equal,
-                        assert_not_in)
 import pytest
 import os.path as op
 import os
@@ -14,18 +12,19 @@ def _test_fetch(url):
     archive_name = op.join(tempdir, "download_test")
     _fetch_file(url, archive_name, timeout=30., verbose=False,
                 resume=False)
-    assert_raises(Exception, _fetch_file, 'NOT_AN_ADDRESS',
-                  op.join(tempdir, 'test'), verbose=False)
+
+    with pytest.raises(Exception):
+        _fetch_file('NOT_AN_ADDRESS', op.join(tempdir, 'test'), verbose=False)
     resume_name = op.join(tempdir, "download_resume")
     # touch file
     with open(resume_name + '.part', 'w'):
         os.utime(resume_name + '.part', None)
     _fetch_file(url, resume_name, resume=True, timeout=30.,
                 verbose=False)
-    assert_raises(ValueError, _fetch_file, url, archive_name,
-                  hash_='a', verbose=False)
-    assert_raises(RuntimeError, _fetch_file, url, archive_name,
-                  hash_='a' * 32, verbose=False)
+    with pytest.raises(ValueError):
+        _fetch_file(url, archive_name, hash_='a', verbose=False)
+    with pytest.raises(RuntimeError):
+        _fetch_file(url, archive_name, hash_='a' * 32, verbose=False)
 
 
 def test_fetch_file_html():

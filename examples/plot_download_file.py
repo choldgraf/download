@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os.path as op
 from glob import glob
+import shutil as sh
 
 ###############################################################################
 # Downloading a file simply requires that you have a URL.
@@ -28,5 +29,6 @@ plt.tight_layout()
 url = "http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip"
 path = download(url, './downloaded/counties/', replace=True, zipfile=True)
 print(glob(op.join(path, '*')))
+sh.rmtree('./downloaded')
 
 plt.show()

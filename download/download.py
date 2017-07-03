@@ -59,7 +59,7 @@ def download(url, path, zipfile=False,
     if len(path) == 0:
         raise ValueError('You must specify a path. For current directory use .')
 
-    download_path = _convert_url_to_downloadable(url)
+    download_url = _convert_url_to_downloadable(url)
 
     if replace is False and op.exists(path) and not zipfile:
         msg = ('Replace is False and data exists, so doing nothing. '
@@ -74,7 +74,7 @@ def download(url, path, zipfile=False,
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
         path_temp_file = op.join(path_temp, "tmp.zip")
-        _fetch_file(download_path, path_temp_file, verbose=verbose)
+        _fetch_file(download_url, path_temp_file, verbose=verbose)
 
         # Unzip the file to the out path
         if verbose:
@@ -85,7 +85,7 @@ def download(url, path, zipfile=False,
     else:
         if not op.isdir(op.dirname(path)):
             os.makedirs(op.dirname(path))
-        _fetch_file(download_path, path, verbose=verbose)
+        _fetch_file(download_url, path, verbose=verbose)
         msg = 'Successfully downloaded file to {}'.format(path)
     if verbose:
         tqdm.write(msg)
@@ -96,15 +96,15 @@ def _convert_url_to_downloadable(url):
     """Convert a url to the proper style depending on its website."""
 
     if 'drive.google.com' in url:
-        raise ValueError('Google drive links are not currently supported')
         # For future support of google drive
-        file_id = url.split('d/').split('/')[0]
+        file_id = url.split('d/')[1].split('/')[0]
         base_url = 'https://drive.google.com/uc?export=download&id='
         out = '{}{}'.format(base_url, file_id)
     elif 'dropbox.com' in url:
-        if 'www' not in url:
-            raise ValueError('If using dropbox, must give a link w/ "www" in it')
-        out = url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+        if url.endswith('.png'):
+            out = url + '?dl=1'
+        else:
+            out = url.replace('dl=0', 'dl=1')
     elif 'github.com' in url:
         out = url.replace('github.com', 'raw.githubusercontent.com')
         out = out.replace('blob/', '')
@@ -140,52 +140,69 @@ def _fetch_file(url, file_name, resume=True,
         raise ValueError('Bad hash value given, should be a 32-character '
                          'string:\n%s' % (hash_,))
     temp_file_name = file_name + ".part"
+
     try:
-        # Check file size and displaying it alongside the download url
-        u = urllib.request.urlopen(url, timeout=timeout)
-        u.close()
-        # this is necessary to follow any redirects
-        url = u.geturl()
-        u = urllib.request.urlopen(url, timeout=timeout)
-        try:
-            file_size = int(u.headers.get('Content-Length', '1').strip())
-        finally:
-            u.close()
-            del u
-        if verbose:
-            tqdm.write('Downloading data from %s (%s)\n'
-                        % (url, sizeof_fmt(file_size)))
-
-        # Triage resume
-        if not os.path.exists(temp_file_name):
-            resume = False
-        if resume:
-            with open(temp_file_name, 'rb', buffering=0) as local_file:
-                local_file.seek(0, 2)
-                initial_size = local_file.tell()
-            del local_file
+        if 'dropbox.com' in url:
+            # Use requests to handle cookies.
+            # XXX In the future, we should probably use requests everywhere.
+            # Unless we want to minimize dependencies.
+            try:
+                import requests
+            except ModuleNotFoundError:
+                raise ValueError('To download Dropbox links, you need to '
+                                 'install the `requests` module.')
+            resp = requests.get(url)
+            chunk_size = 8192  # 2 ** 13
+            with open(temp_file_name, 'wb') as ff:
+                for chunk in resp.iter_content(chunk_size=chunk_size):
+                    if chunk: # filter out keep-alive new chunks
+                        ff.write(chunk)
         else:
-            initial_size = 0
-        # This should never happen if our functions work properly
-        if initial_size > file_size:
-            raise RuntimeError('Local file (%s) is larger than remote '
-                               'file (%s), cannot resume download'
-                               % (sizeof_fmt(initial_size),
-                                  sizeof_fmt(file_size)))
-
-        scheme = urllib.parse.urlparse(url).scheme
-        fun = _get_http if scheme in ('http', 'https') else _get_ftp
-        fun(url, temp_file_name, initial_size, file_size, verbose, ncols=80)
-
-        # check md5sum
-        if hash_ is not None:
+            # Check file size and displaying it alongside the download url
+            u = urllib.request.urlopen(url, timeout=timeout)
+            u.close()
+            # this is necessary to follow any redirects
+            url = u.geturl()
+            u = urllib.request.urlopen(url, timeout=timeout)
+            try:
+                file_size = int(u.headers.get('Content-Length', '1').strip())
+            finally:
+                u.close()
+                del u
             if verbose:
-                tqdm.write('Verifying download hash.')
-            md5 = md5sum(temp_file_name)
-            if hash_ != md5:
-                raise RuntimeError('Hash mismatch for downloaded file %s, '
-                                   'expected %s but got %s'
-                                   % (temp_file_name, hash_, md5))
+                tqdm.write('Downloading data from %s (%s)\n'
+                            % (url, sizeof_fmt(file_size)))
+
+            # Triage resume
+            if not os.path.exists(temp_file_name):
+                resume = False
+            if resume:
+                with open(temp_file_name, 'rb', buffering=0) as local_file:
+                    local_file.seek(0, 2)
+                    initial_size = local_file.tell()
+                del local_file
+            else:
+                initial_size = 0
+            # This should never happen if our functions work properly
+            if initial_size > file_size:
+                raise RuntimeError('Local file (%s) is larger than remote '
+                                   'file (%s), cannot resume download'
+                                   % (sizeof_fmt(initial_size),
+                                      sizeof_fmt(file_size)))
+
+            scheme = urllib.parse.urlparse(url).scheme
+            fun = _get_http if scheme in ('http', 'https') else _get_ftp
+            fun(url, temp_file_name, initial_size, file_size, verbose, ncols=80)
+
+            # check md5sum
+            if hash_ is not None:
+                if verbose:
+                    tqdm.write('Verifying download hash.')
+                md5 = md5sum(temp_file_name)
+                if hash_ != md5:
+                    raise RuntimeError('Hash mismatch for downloaded file %s, '
+                                       'expected %s but got %s'
+                                       % (temp_file_name, hash_, md5))
         shutil.move(temp_file_name, file_name)
     except Exception as ee:
         raise RuntimeError('Error while fetching file %s.'
