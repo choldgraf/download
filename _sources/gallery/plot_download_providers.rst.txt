@@ -124,7 +124,7 @@ requires cookies and requests is smart about handling this.
     Successfully downloaded file to ./downloaded/citation3.png
 
 
-**Total running time of the script:** ( 0 minutes  2.178 seconds)
+**Total running time of the script:** ( 0 minutes  1.923 seconds)
 
 
 
