@@ -29,7 +29,7 @@ Here is a short gallery showing off ``download`` functionality:
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="It's also possible to download files from Github, Google Drive, and Dropbox. While you can go t...">
+    <div class="sphx-glr-thumbcontainer" tooltip="It&#x27;s also possible to download files from Github, Google Drive, and Dropbox. While you can go t...">
 
 .. only:: html
 
