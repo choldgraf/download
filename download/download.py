@@ -61,7 +61,7 @@ def download(url, path, zipfile=False,
 
     download_url = _convert_url_to_downloadable(url)
 
-    if replace is False and op.exists(path) and not zipfile:
+    if replace is False and op.exists(path):
         msg = ('Replace is False and data exists, so doing nothing. '
                 'Use replace==True to re-download the data.')
     elif zipfile:
