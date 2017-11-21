@@ -72,7 +72,7 @@
 <p>You can optionally unzip the file to the directory of your choice
 using <code class="docutils literal"><span class="pre">zipfile=True</span></code>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip&quot;</span>
-<span class="n">path</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/counties/&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">zipfile</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/counties/&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;zip&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)))</span>
 <span class="n">sh</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="s1">&#39;./downloaded&#39;</span><span class="p">)</span>
 
@@ -81,14 +81,14 @@ using <code class="docutils literal"><span class="pre">zipfile=True</span></code
 </div>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>Creating data folder...
-Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.f3111cb8.1511297334.32dbc8a (859 kB)
+Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.f3111cb8.1511300513.35ee433 (859 kB)
 
 Extracting zip file...
 Successfully downloaded / unzipped to ./downloaded/counties/
 [&#39;./downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp.iso.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp.xml&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shp&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.shx&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.dbf&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.prj&#39;, &#39;./downloaded/counties/cb_2016_us_county_20m.cpg&#39;]
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.531 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  2.082 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_download_file.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_file.py</span></code></a></div>
