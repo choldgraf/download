@@ -27,7 +27,7 @@ plt.tight_layout()
 # using ``zipfile=True``.
 
 url = "http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip"
-path = download(url, './downloaded/counties/', replace=True, zipfile=True)
+path = download(url, './downloaded/counties/', replace=True, kind='zip')
 print(glob(op.join(path, '*')))
 sh.rmtree('./downloaded')
 
