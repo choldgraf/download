@@ -4,7 +4,7 @@ import os.path as op
 from subprocess import check_output
 from six.moves import urllib
 from zipfile import ZipFile
-from tarfile import TarFile
+import tarfile
 import logging
 from math import log, ceil
 import time
@@ -12,6 +12,7 @@ import sys
 import shutil
 import tempfile
 import ftplib
+from functools import partial
 from tqdm import tqdm
 
 if sys.version_info[0] == 3:
@@ -19,8 +20,11 @@ if sys.version_info[0] == 3:
 else:
     string_types = basestring
 
+ALLOWED_KINDS = ['file', 'tar', 'zip', 'tar.gz']
+ZIP_KINDS = ['tar', 'zip', 'tar.gz']
 
-def download(url, path, zipfile=False, tarfile=False,
+
+def download(url, path, kind='file',
              progressbar=True, replace=False, verbose=True):
     """Download a URL.
 
@@ -39,14 +43,10 @@ def download(url, path, zipfile=False, tarfile=False,
     path : string
         The path where the downloaded file will be stored. If ``zipfile``
         is True, then this must be a folder into which files will be zipped.
-    zipfile : bool
-        Whether the URL points to a zip file. If yes, it will be
-        unzipped to ``root_destination/<name>``. If True, ``tarfile``
-        must be False.
-    tarfile : bool
-        Whether the URL points to a tar file. If yes, it will be
-        unzipped to ``root_destination/<name>``. If True, ``zipfile``
-        must be False.
+    kind : one of ['file', 'zip', 'tar', 'tar.gz']
+        The kind of file to be downloaded. If not 'file', then the file
+        contents will be unpackaged according to the kind specified. Package
+        contents will be placed in ``root_destination/<name>``.
     progressbar : bool
         Whether to display a progress bar during file download.
     replace : bool
@@ -61,6 +61,10 @@ def download(url, path, zipfile=False, tarfile=False,
         A path to the downloaded file (or folder, in the case of
         a zip file).
     """
+    if kind not in ALLOWED_KINDS:
+        raise ValueError('`kind` must be one of {}, got {}'.format(
+            ALLOWED_KINDS, kind))
+
     # Make sure we have directories to dump files
     path = op.expanduser(path)
 
@@ -72,9 +76,7 @@ def download(url, path, zipfile=False, tarfile=False,
     if replace is False and op.exists(path):
         msg = ('Replace is False and data exists, so doing nothing. '
                'Use replace==True to re-download the data.')
-    elif zipfile or tarfile:
-        if zipfile and tarfile:
-            raise ValueError("Must use one of zipfile OR tarfile")
+    elif kind in ZIP_KINDS:
         # Create new folder for data if we need it
         if not op.isdir(path):
             if verbose:
@@ -83,20 +85,20 @@ def download(url, path, zipfile=False, tarfile=False,
 
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
-        ext = 'zip' if zipfile else 'tar'
-        path_temp_file = op.join(path_temp, "tmp.{}".format(ext))
+        path_temp_file = op.join(path_temp, "tmp.{}".format(kind))
         _fetch_file(download_url, path_temp_file, verbose=verbose)
 
         # Unzip the file to the out path
         if verbose:
-            msg = 'zip' if zipfile is True else 'tar'
-            tqdm.write('Extracting {} file...'.format(msg))
-        if zipfile:
-            with ZipFile(path_temp_file) as myzip:
-                myzip.extractall(path)
-        elif tarfile:
-            with TarFile(path_temp_file) as mytar:
-                mytar.extractall(path)
+            tqdm.write('Extracting {} file...'.format(kind))
+        if kind == 'zip':
+            zipper = ZipFile
+        elif kind == 'tar':
+            zipper = tarfile.open
+        elif kind == 'tar.gz':
+            zipper = partial(tarfile.open, mode='r:gz')
+        with zipper(path_temp_file) as myobj:
+            myobj.extractall(path)
         msg = 'Successfully downloaded / unzipped to {}'.format(path)
     else:
         if not op.isdir(op.dirname(path)):
