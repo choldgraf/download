@@ -54,15 +54,23 @@ def test_download_func():
 
     # zip files
     url_zip = 'https://github.com/choldgraf/download/blob/master/download/tests/test.zip?raw=true'
-    path = download(url_zip, op.join(tempdir, 'myfolder'), zipfile=True)
+    path = download(url_zip, op.join(tempdir, 'myfolder'), kind='zip')
     # Path is created
     assert op.isdir(path)
     # File is zipped to the right location
     assert op.exists(op.join(path, 'myfile.txt'))
 
     # tar files
-    url_tar = 'https://github.com/choldgraf/download/blob/enhancements/download/tests/test.tar?raw=true'
-    path = download(url_tar, op.join(tempdir, 'myfolder2'), tarfile=True)
+    url_tar = 'https://github.com/choldgraf/download/blob/master/download/tests/test.tar?raw=true'
+    path = download(url_tar, op.join(tempdir, 'myfolder2'), kind='tar')
+    # Path is created
+    assert op.isdir(path)
+    # File is zipped to the right location
+    assert op.exists(op.join(path, 'myfile.txt'))
+
+    # tar.gz files
+    url_tar = 'https://github.com/choldgraf/download/blob/master/download/tests/test.tar.gz?raw=true'
+    path = download(url_tar, op.join(tempdir, 'myfolder3'), kind='tar.gz')
     # Path is created
     assert op.isdir(path)
     # File is zipped to the right location
