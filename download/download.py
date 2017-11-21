@@ -4,7 +4,7 @@ import os.path as op
 from subprocess import check_output
 from six.moves import urllib
 from zipfile import ZipFile
-from tqdm import tqdm
+from tarfile import TarFile
 import logging
 from math import log, ceil
 import time
@@ -12,6 +12,7 @@ import sys
 import shutil
 import tempfile
 import ftplib
+from tqdm import tqdm
 
 if sys.version_info[0] == 3:
     string_types = str
@@ -19,8 +20,8 @@ else:
     string_types = basestring
 
 
-def download(url, path, zipfile=False,
-             replace=False, verbose=True):
+def download(url, path, zipfile=False, tarfile=False,
+             progressbar=True, replace=False, verbose=True):
     """Download a URL.
 
     This will download a file and store it in a '~/data/` folder,
@@ -40,7 +41,14 @@ def download(url, path, zipfile=False,
         is True, then this must be a folder into which files will be zipped.
     zipfile : bool
         Whether the URL points to a zip file. If yes, it will be
-        unzipped to ``root_destination/<name>``.
+        unzipped to ``root_destination/<name>``. If True, ``tarfile``
+        must be False.
+    tarfile : bool
+        Whether the URL points to a tar file. If yes, it will be
+        unzipped to ``root_destination/<name>``. If True, ``zipfile``
+        must be False.
+    progressbar : bool
+        Whether to display a progress bar during file download.
     replace : bool
         If True and the URL points to a single file, overwrite the
         old file if possible.
@@ -63,8 +71,10 @@ def download(url, path, zipfile=False,
 
     if replace is False and op.exists(path):
         msg = ('Replace is False and data exists, so doing nothing. '
-                'Use replace==True to re-download the data.')
-    elif zipfile:
+               'Use replace==True to re-download the data.')
+    elif zipfile or tarfile:
+        if zipfile and tarfile:
+            raise ValueError("Must use one of zipfile OR tarfile")
         # Create new folder for data if we need it
         if not op.isdir(path):
             if verbose:
@@ -73,14 +83,20 @@ def download(url, path, zipfile=False,
 
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
-        path_temp_file = op.join(path_temp, "tmp.zip")
+        ext = 'zip' if zipfile else 'tar'
+        path_temp_file = op.join(path_temp, "tmp.{}".format(ext))
         _fetch_file(download_url, path_temp_file, verbose=verbose)
 
         # Unzip the file to the out path
         if verbose:
-            tqdm.write('Extracting zip file...')
-        with ZipFile(path_temp_file) as myzip:
-            myzip.extractall(path)
+            msg = 'zip' if zipfile is True else 'tar'
+            tqdm.write('Extracting {} file...'.format(msg))
+        if zipfile:
+            with ZipFile(path_temp_file) as myzip:
+                myzip.extractall(path)
+        elif tarfile:
+            with TarFile(path_temp_file) as mytar:
+                mytar.extractall(path)
         msg = 'Successfully downloaded / unzipped to {}'.format(path)
     else:
         if not op.isdir(op.dirname(path)):
@@ -112,8 +128,9 @@ def _convert_url_to_downloadable(url):
         out = url
     return out
 
+
 def _fetch_file(url, file_name, resume=True,
-                hash_=None, timeout=10., verbose=True):
+                hash_=None, timeout=10., progressbar=True, verbose=True):
     """Load requested file, downloading it if needed or requested.
 
     Parameters
@@ -155,7 +172,7 @@ def _fetch_file(url, file_name, resume=True,
             chunk_size = 8192  # 2 ** 13
             with open(temp_file_name, 'wb') as ff:
                 for chunk in resp.iter_content(chunk_size=chunk_size):
-                    if chunk: # filter out keep-alive new chunks
+                    if chunk:  # filter out keep-alive new chunks
                         ff.write(chunk)
         else:
             # Check file size and displaying it alongside the download url
@@ -171,7 +188,7 @@ def _fetch_file(url, file_name, resume=True,
                 del u
             if verbose:
                 tqdm.write('Downloading data from %s (%s)\n'
-                            % (url, sizeof_fmt(file_size)))
+                           % (url, sizeof_fmt(file_size)))
 
             # Triage resume
             if not os.path.exists(temp_file_name):
@@ -192,7 +209,8 @@ def _fetch_file(url, file_name, resume=True,
 
             scheme = urllib.parse.urlparse(url).scheme
             fun = _get_http if scheme in ('http', 'https') else _get_ftp
-            fun(url, temp_file_name, initial_size, file_size, verbose, ncols=80)
+            fun(url, temp_file_name, initial_size, file_size, verbose,
+                progressbar, ncols=80)
 
             # check md5sum
             if hash_ is not None:
@@ -210,7 +228,7 @@ def _fetch_file(url, file_name, resume=True,
 
 
 def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
-             ncols=80):
+             progressbar, ncols=80):
     """Safely (resume a) download to a file from FTP."""
     # Adapted from: https://pypi.python.org/pypi/fileDownloader.py
     # but with changes
@@ -232,8 +250,12 @@ def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
     data.sendcmd("REST " + str(initial_size))
     down_cmd = "RETR " + file_name
     assert file_size == data.size(file_name)
-    progress = tqdm(total=file_size, initial=initial_size, desc='file_sizes',
-                    ncols=ncols, unit='B', unit_scale=True)
+    if progressbar:
+        progress = tqdm(total=file_size, initial=initial_size,
+                        desc='file_sizes', ncols=ncols, unit='B',
+                        unit_scale=True)
+    else:
+        progress = None
 
     # Callback lambda function that will be passed the downloaded data
     # chunk and will write it to file and update the progress bar
@@ -245,7 +267,7 @@ def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
         data.close()
 
 def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
-              ncols=80):
+              progressbar, ncols=80):
     """Safely (resume a) download to a file from http(s)."""
     # Actually do the reading
     req = urllib.request.Request(url)
@@ -272,8 +294,9 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
     if total_size != file_size:
         raise RuntimeError('URL could not be parsed properly')
     mode = 'ab' if initial_size > 0 else 'wb'
-    progress = tqdm(total=total_size, initial=initial_size, desc='file_sizes',
-                    ncols=ncols, unit='B', unit_scale=True)
+    if progressbar is True:
+        progress = tqdm(total=total_size, initial=initial_size, desc='file_sizes',
+                        ncols=ncols, unit='B', unit_scale=True)
 
     chunk_size = 8192  # 2 ** 13
     with open(temp_file_name, mode) as local_file:
@@ -288,7 +311,8 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
             if not chunk:
                 break
             local_file.write(chunk)
-            progress.update(len(chunk))
+            if progressbar is True:
+                progress.update(len(chunk))
 
 def md5sum(fname, block_size=1048576):  # 2 ** 20
     """Calculate the md5sum for a file.
@@ -318,7 +342,8 @@ def md5sum(fname, block_size=1048576):  # 2 ** 20
 def _chunk_write(chunk, local_file, progress):
     """Write a chunk to file and update the progress bar."""
     local_file.write(chunk)
-    progress.update(len(chunk))
+    if progress is not None:
+        progress.update(len(chunk))
 
 
 def sizeof_fmt(num):
