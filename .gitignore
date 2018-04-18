@@ -104,3 +104,7 @@ ENV/
 downloaded/
 doc/gallery/
 doc/_build/
+
+# Pycharm
+.idea
+.idea/*

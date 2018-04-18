@@ -25,7 +25,7 @@ ZIP_KINDS = ['tar', 'zip', 'tar.gz']
 
 
 def download(url, path, kind='file',
-             progressbar=True, replace=False, verbose=True):
+             progressbar=True, replace=False, timeout=10., verbose=True):
     """Download a URL.
 
     This will download a file and store it in a '~/data/` folder,
@@ -52,6 +52,8 @@ def download(url, path, kind='file',
     replace : bool
         If True and the URL points to a single file, overwrite the
         old file if possible.
+    timeout : float
+        The URL open timeout.
     verbose : bool
         Whether to print download status to the screen.
 
@@ -86,7 +88,8 @@ def download(url, path, kind='file',
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
         path_temp_file = op.join(path_temp, "tmp.{}".format(kind))
-        _fetch_file(download_url, path_temp_file, verbose=verbose)
+        _fetch_file(download_url, path_temp_file, timeout=timeout,
+                    verbose=verbose)
 
         # Unzip the file to the out path
         if verbose:
@@ -103,7 +106,7 @@ def download(url, path, kind='file',
     else:
         if not op.isdir(op.dirname(path)):
             os.makedirs(op.dirname(path))
-        _fetch_file(download_url, path, verbose=verbose)
+        _fetch_file(download_url, path, timeout=timeout, verbose=verbose)
         msg = 'Successfully downloaded file to {}'.format(path)
     if verbose:
         tqdm.write(msg)
