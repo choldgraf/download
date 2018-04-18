@@ -4,21 +4,13 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Download from Dropbox, Google Drive, and Github &#8212; download 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '0.1',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -31,8 +23,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -44,8 +35,8 @@
 <span id="sphx-glr-gallery-plot-download-providers-py"></span><h1>Download from Dropbox, Google Drive, and Github<a class="headerlink" href="#download-from-dropbox-google-drive-and-github" title="Permalink to this headline">¶</a></h1>
 <p>It’s also possible to download files from Github, Google Drive, and Dropbox.
 While you can go through a little extra effort to get a direct download link,
-<code class="docutils literal"><span class="pre">download</span></code> will try to make things a little bit easier for you.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">download</span> <span class="kn">import</span> <span class="n">download</span>
+<code class="docutils literal notranslate"><span class="pre">download</span></code> will try to make things a little bit easier for you.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">download</span> <span class="kn">import</span> <span class="n">download</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">op</span>
 <span class="kn">import</span> <span class="nn">shutil</span> <span class="kn">as</span> <span class="nn">sh</span>
@@ -54,7 +45,7 @@ While you can go through a little extra effort to get a direct download link,
 <p>You can simply find the link to your content on GitHub and give it directly
 to Download. It will try to be smart about converting the link where
 necessary.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://drive.google.com/file/d/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk/view?usp=sharing&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://drive.google.com/file/d/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk/view?usp=sharing&quot;</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/citation.png&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -65,7 +56,7 @@ necessary.</p>
 </div>
 <img alt="../_images/sphx_glr_plot_download_providers_001.png" class="align-center" src="../_images/sphx_glr_plot_download_providers_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span>Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/s0qbdqqrbnmrmisbkj9pvjg3o8jqucmb/1511294400000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span>Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/gafv2ec4nqacbu8khe61nij8o642j0bn/1524088800000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
 
 Successfully downloaded file to ./downloaded/citation.png
 </pre></div>
@@ -75,7 +66,7 @@ Successfully downloaded file to ./downloaded/citation.png
 <p class="first admonition-title">Note</p>
 <p class="last">Make sure your sharing options let any user access the file.</p>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/choldgraf/download/blob/master/examples/data/citation.png&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/choldgraf/download/blob/master/examples/data/citation.png&quot;</span>
 <span class="n">path2</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/citation2.png&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -86,15 +77,15 @@ Successfully downloaded file to ./downloaded/citation.png
 </div>
 <img alt="../_images/sphx_glr_plot_download_providers_002.png" class="align-center" src="../_images/sphx_glr_plot_download_providers_002.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">choldgraf</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">citation</span><span class="o">.</span><span class="n">png</span> <span class="p">(</span><span class="mi">35</span> <span class="n">kB</span><span class="p">)</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Downloading</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="o">.</span><span class="n">githubusercontent</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">choldgraf</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">citation</span><span class="o">.</span><span class="n">png</span> <span class="p">(</span><span class="mi">35</span> <span class="n">kB</span><span class="p">)</span>
 
 <span class="n">Successfully</span> <span class="n">downloaded</span> <span class="n">file</span> <span class="n">to</span> <span class="o">./</span><span class="n">downloaded</span><span class="o">/</span><span class="n">citation2</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p>Dropbox links also work, though in this case <code class="docutils literal"><span class="pre">download</span></code> will use
-the <code class="docutils literal"><span class="pre">requests</span></code> library to download the file. This is because Dropbox
+<p>Dropbox links also work, though in this case <code class="docutils literal notranslate"><span class="pre">download</span></code> will use
+the <code class="docutils literal notranslate"><span class="pre">requests</span></code> library to download the file. This is because Dropbox
 requires cookies and requests is smart about handling this.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/s/fow6bx4owwikjug/citation.png?dl=0&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.dropbox.com/s/fow6bx4owwikjug/citation.png?dl=0&quot;</span>
 <span class="n">path3</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;./downloaded/citation3.png&#39;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -108,15 +99,15 @@ requires cookies and requests is smart about handling this.</p>
 </div>
 <img alt="../_images/sphx_glr_plot_download_providers_003.png" class="align-center" src="../_images/sphx_glr_plot_download_providers_003.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-default"><div class="highlight"><pre><span></span><span class="n">Successfully</span> <span class="n">downloaded</span> <span class="n">file</span> <span class="n">to</span> <span class="o">./</span><span class="n">downloaded</span><span class="o">/</span><span class="n">citation3</span><span class="o">.</span><span class="n">png</span>
+<div class="sphx-glr-script-out highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Successfully</span> <span class="n">downloaded</span> <span class="n">file</span> <span class="n">to</span> <span class="o">./</span><span class="n">downloaded</span><span class="o">/</span><span class="n">citation3</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  2.059 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  1.918 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_download_providers.py" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_providers.py</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_download_providers.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_providers.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
-<a class="reference download internal" href="../_downloads/plot_download_providers.ipynb" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_download_providers.ipynb</span></code></a></div>
+<a class="reference download internal" href="../_downloads/plot_download_providers.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_download_providers.ipynb</span></code></a></div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -164,12 +155,14 @@ requires cookies and requests is smart about handling this.</p>
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -180,7 +173,7 @@ requires cookies and requests is smart about handling this.</p>
       &copy;2017, Chris Holdgraf.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
