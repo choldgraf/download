@@ -40,9 +40,47 @@ Download a file on the web is as easy as::
 
 a file called ``file_name`` will be downloaded to the folder of ``file_path``.
 
+File types
+^^^^^^^^^^
+
 If your file is a zip file, you can add the flag::
 
-  path = download(url, file_path, zipfile=True)
+  path = download(url, file_path, kind="zip")
 
 in this case, the file will be downloaded, and then unzipped into the folder
 specified by `file_name`.
+
+Supported formats are `'file', 'zip', 'tar', 'tar.gz'`
+Defaults to `file`.
+
+Progress bar
+^^^^^^^^^^^^
+
+Whether to display a progress bar during file download.
+Defaults to `True`::
+
+  path = download(url, file_path, progressbar=True)
+  
+Replace
+^^^^^^^
+
+If `True` and the URL points to a single file, overwrite the old file if possible.
+Defaults to `False`::
+
+  path = download(url, file_path, replace=False)
+  
+Timeout
+^^^^^^^
+
+The URL open timeout in seconds.
+Defaults to 10 seconds::
+
+  path = download(url, file_path, timeout=10)
+  
+Verbose
+^^^^^^^
+
+Whether to print download status to the screen.
+Defaults to `True`::
+
+  path = download(url, file_path, verbose=True)
