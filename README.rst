@@ -57,7 +57,7 @@ Progress bar
 ^^^^^^^^^^^^
 
 Whether to display a progress bar during file download.
-Defaults to `True`
+Defaults to `True`::
 
   path = download(url, file_path, progressbar=True)
   
@@ -65,7 +65,7 @@ Replace
 ^^^^^^^
 
 If `True` and the URL points to a single file, overwrite the old file if possible.
-Defaults to `False`.
+Defaults to `False`::
 
   path = download(url, file_path, replace=False)
   
@@ -73,7 +73,7 @@ Timeout
 ^^^^^^^
 
 The URL open timeout in seconds.
-Defaults to 10 seconds.
+Defaults to 10 seconds::
 
   path = download(url, file_path, timeout=10)
   
@@ -81,6 +81,6 @@ Verbose
 ^^^^^^^
 
 Whether to print download status to the screen.
-Defaults to `True`.
+Defaults to `True`::
 
   path = download(url, file_path, verbose=True)
