@@ -89,7 +89,7 @@ def download(url, path, kind='file',
         path_temp = _TempDir()
         path_temp_file = op.join(path_temp, "tmp.{}".format(kind))
         _fetch_file(download_url, path_temp_file, timeout=timeout,
-                    verbose=verbose)
+                    verbose=verbose, progressbar=progressbar)
 
         # Unzip the file to the out path
         if verbose:
@@ -106,7 +106,7 @@ def download(url, path, kind='file',
     else:
         if not op.isdir(op.dirname(path)):
             os.makedirs(op.dirname(path))
-        _fetch_file(download_url, path, timeout=timeout, verbose=verbose)
+        _fetch_file(download_url, path, timeout=timeout, verbose=verbose, progressbar=progressbar)
         msg = 'Successfully downloaded file to {}'.format(path)
     if verbose:
         tqdm.write(msg)
