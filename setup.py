@@ -20,7 +20,8 @@ URL = 'https://github.com/choldgraf/download'
 LICENSE = 'BSD (3-clause)'
 DOWNLOAD_URL = 'https://github.com/choldgraf/download'
 VERSION = __version__
-
+with open('./README.rst', 'r') as ff:
+    LONG_DESCRIPTION = ff.read()
 
 if __name__ == "__main__":
     if os.path.exists('MANIFEST'):
@@ -31,11 +32,12 @@ if __name__ == "__main__":
           include_package_data=False,
           maintainer_email=MAINTAINER_EMAIL,
           description=DESCRIPTION,
+          long_description=LONG_DESCRIPTION,
+          long_description_content_type="text/x-rst",
           license=LICENSE,
           url=URL,
           version=VERSION,
           download_url=DOWNLOAD_URL,
-          long_description=open('README.rst').read(),
           zip_safe=False,  # the package can run out of an .egg file
           classifiers=['Intended Audience :: Science/Research',
                        'Intended Audience :: Developers',
