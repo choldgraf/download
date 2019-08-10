@@ -42,7 +42,7 @@ ax.set_axis_off()
 # the ``requests`` library to download the file. This is because Dropbox
 # requires cookies and requests is smart about handling this.
 
-url = "https://www.dropbox.com/s/fow6bx4owwikjug/citation.png?dl=0"
+url = "https://www.dropbox.com/s/rlndt99tss65418/citation.png?dl=0"
 path3 = download(url, './downloaded/citation3.png', replace=True)
 
 fig, ax = plt.subplots()
