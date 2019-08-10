@@ -19,6 +19,10 @@ statistics.
     This draws heavily from the
     `MNE-python <https://martinos.org/mne>`_ ``_fetch_file`` function.
 
+_This package doesn't get a ton of developer attention, but is hopefully well-scoped
+enough that it should still be useful! If you'd like to help improve it, fix bugs, etc,
+please reach out in the issues!_
+
 Installation
 ------------
 
