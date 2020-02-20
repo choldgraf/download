@@ -82,7 +82,7 @@ def download(url, path, kind='file',
         # Create new folder for data if we need it
         if not op.isdir(path):
             if verbose:
-                tqdm.write('Creating data folder...')
+                tqdm.write('Creating data folder...', file=sys.stdout)
             os.makedirs(path)
 
         # Download the file to a temporary folder to unzip
@@ -93,7 +93,7 @@ def download(url, path, kind='file',
 
         # Unzip the file to the out path
         if verbose:
-            tqdm.write('Extracting {} file...'.format(kind))
+            tqdm.write('Extracting {} file...'.format(kind), file=sys.stdout)
         if kind == 'zip':
             zipper = ZipFile
         elif kind == 'tar':
@@ -109,7 +109,7 @@ def download(url, path, kind='file',
         _fetch_file(download_url, path, timeout=timeout, verbose=verbose, progressbar=progressbar)
         msg = 'Successfully downloaded file to {}'.format(path)
     if verbose:
-        tqdm.write(msg)
+        tqdm.write(msg, file=sys.stdout)
     return path
 
 
@@ -181,11 +181,13 @@ def _fetch_file(url, file_name, resume=True,
                         ff.write(chunk)
         else:
             # Check file size and displaying it alongside the download url
-            u = urllib.request.urlopen(url, timeout=timeout)
+            req = request_agent(url)
+            u = urllib.request.urlopen(req, timeout=timeout)
             u.close()
             # this is necessary to follow any redirects
             url = u.geturl()
-            u = urllib.request.urlopen(url, timeout=timeout)
+            req = request_agent(url)
+            u = urllib.request.urlopen(req, timeout=timeout)
             try:
                 file_size = int(u.headers.get('Content-Length', '1').strip())
             finally:
@@ -193,7 +195,7 @@ def _fetch_file(url, file_name, resume=True,
                 del u
             if verbose:
                 tqdm.write('Downloading data from %s (%s)\n'
-                           % (url, sizeof_fmt(file_size)))
+                           % (url, sizeof_fmt(file_size)), file=sys.stdout)
 
             # Triage resume
             if not os.path.exists(temp_file_name):
@@ -220,7 +222,7 @@ def _fetch_file(url, file_name, resume=True,
             # check md5sum
             if hash_ is not None:
                 if verbose:
-                    tqdm.write('Verifying download hash.')
+                    tqdm.write('Verifying download hash.', file=sys.stdout)
                 md5 = md5sum(temp_file_name)
                 if hash_ != md5:
                     raise RuntimeError('Hash mismatch for downloaded file %s, '
@@ -258,7 +260,7 @@ def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
     if progressbar:
         progress = tqdm(total=file_size, initial=initial_size,
                         desc='file_sizes', ncols=ncols, unit='B',
-                        unit_scale=True)
+                        unit_scale=True, file=sys.stdout)
     else:
         progress = None
 
@@ -270,12 +272,14 @@ def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
             return _chunk_write(chunk, local_file, progress)
         data.retrbinary(down_cmd, chunk_write)
         data.close()
+    if progressbar:
+        progress.close()
 
 def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
               progressbar, ncols=80):
     """Safely (resume a) download to a file from http(s)."""
     # Actually do the reading
-    req = urllib.request.Request(url)
+    req = request_agent(url)
     if initial_size > 0:
         req.headers['Range'] = 'bytes=%s-' % (initial_size,)
     try:
@@ -286,14 +290,14 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
         # back to complete download method
         tqdm.write('Resuming download failed (server '
                    'rejected the request). Attempting to '
-                   'restart downloading the entire file.')
+                   'restart downloading the entire file.', file=sys.stdout)
         del req.headers['Range']
         response = urllib.request.urlopen(req)
     total_size = int(response.headers.get('Content-Length', '1').strip())
     if initial_size > 0 and file_size == total_size:
         tqdm.write('Resuming download failed (resume file size '
                    'mismatch). Attempting to restart downloading the '
-                   'entire file.')
+                   'entire file.', file=sys.stdout)
         initial_size = 0
     total_size += initial_size
     if total_size != file_size:
@@ -301,7 +305,7 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
     mode = 'ab' if initial_size > 0 else 'wb'
     if progressbar is True:
         progress = tqdm(total=total_size, initial=initial_size, desc='file_sizes',
-                        ncols=ncols, unit='B', unit_scale=True)
+                        ncols=ncols, unit='B', unit_scale=True, file=sys.stdout)
 
     chunk_size = 8192  # 2 ** 13
     with open(temp_file_name, mode) as local_file:
@@ -318,6 +322,8 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
             local_file.write(chunk)
             if progressbar is True:
                 progress.update(len(chunk))
+    if progressbar is True:
+        progress.close()
 
 def md5sum(fname, block_size=1048576):  # 2 ** 20
     """Calculate the md5sum for a file.
@@ -400,3 +406,15 @@ class _TempDir(str):
 
     def __del__(self):  # noqa: D105
         shutil.rmtree(self._path, ignore_errors=True)
+
+
+def request_agent(url):
+    req = urllib.request.Request(
+                url,
+                data = None,
+                # Simulate a user-agent because some websites require it for this to work
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+                }
+            )
+    return req
