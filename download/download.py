@@ -181,24 +181,12 @@ def _fetch_file(url, file_name, resume=True,
                         ff.write(chunk)
         else:
             # Check file size and displaying it alongside the download url
-            req = urllib.request.Request(
-                url,
-                data = None, 
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-                }
-            )
+            req = request_agent(url)
             u = urllib.request.urlopen(req, timeout=timeout)
             u.close()
             # this is necessary to follow any redirects
             url = u.geturl()
-            req = urllib.request.Request(
-                url,
-                data = None, 
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-                }
-            )
+            req = request_agent(url)
             u = urllib.request.urlopen(req, timeout=timeout)
             try:
                 file_size = int(u.headers.get('Content-Length', '1').strip())
@@ -290,13 +278,7 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
               progressbar, ncols=80):
     """Safely (resume a) download to a file from http(s)."""
     # Actually do the reading
-    req = urllib.request.Request(
-        url,
-        data = None, 
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-        }
-    )
+    req = request_agent(url)
     if initial_size > 0:
         req.headers['Range'] = 'bytes=%s-' % (initial_size,)
     try:
@@ -422,3 +404,14 @@ class _TempDir(str):
 
     def __del__(self):  # noqa: D105
         shutil.rmtree(self._path, ignore_errors=True)
+
+
+def request_agent(url):
+    req = urllib.request.Request(
+                url,
+                data = None,
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+                }
+            )
+    return req
