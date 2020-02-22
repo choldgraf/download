@@ -40,7 +40,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             # The SSH key fingerprint
-            - "7d:04:9c:2d:bf:00:74:43:47:7d:5d:ad:53:49:2a:5b"
+            - "a4:05:d7:6d:1c:cd:0b:d9:cf:c1:0b:0f:d0:c3:e6:93"
       - run:
           name: Deploy documentation on master
           command: |
