@@ -37,6 +37,19 @@ jobs:
           path: doc/_build/html/
           destination: html
 
+      - add_ssh_keys:
+          fingerprints:
+            # The SSH key fingerprint
+            - "7d:04:9c:2d:bf:00:74:43:47:7d:5d:ad:53:49:2a:5b"
+      - run:
+          name: Deploy documentation on master
+          command: |
+            if [ ${CIRCLE_BRANCH} == "master" ]
+            then
+            pip install ghp-import
+            ghp-import doc/_build/html -n -p -f
+            fi
+
 
 workflows:
   version: 2
