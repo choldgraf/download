@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  tests:
+    docker:
+      - image: circleci/python:3.6-stretch
+    steps:
+      # Get our data and merge with upstream
+      - run: sudo apt-get update
+      - checkout
+
+      - restore_cache:
+          keys:
+            - cache-pip
+
+      - run: pip install --user -e .[dev,sphinx]
+
+
+      - save_cache:
+          key: cache-pip
+          paths:
+            - ~/.cache/pip
+      # Run tests
+      - run:
+          name: Run tests
+          command: |
+            pytest --cov=download
+            codecov
+
+      # Build the docs
+      - run:
+          name: Build docs to store
+          command: |
+            cd doc
+            make html
+
+      - store_artifacts:
+          path: doc/_build/html/
+          destination: html
+
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - tests

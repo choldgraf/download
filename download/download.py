@@ -20,12 +20,13 @@ if sys.version_info[0] == 3:
 else:
     string_types = basestring
 
-ALLOWED_KINDS = ['file', 'tar', 'zip', 'tar.gz']
-ZIP_KINDS = ['tar', 'zip', 'tar.gz']
+ALLOWED_KINDS = ["file", "tar", "zip", "tar.gz"]
+ZIP_KINDS = ["tar", "zip", "tar.gz"]
 
 
-def download(url, path, kind='file',
-             progressbar=True, replace=False, timeout=10., verbose=True):
+def download(
+    url, path, kind="file", progressbar=True, replace=False, timeout=10.0, verbose=True
+):
     """Download a URL.
 
     This will download a file and store it in a '~/data/` folder,
@@ -64,50 +65,62 @@ def download(url, path, kind='file',
         a zip file).
     """
     if kind not in ALLOWED_KINDS:
-        raise ValueError('`kind` must be one of {}, got {}'.format(
-            ALLOWED_KINDS, kind))
+        raise ValueError("`kind` must be one of {}, got {}".format(ALLOWED_KINDS, kind))
 
     # Make sure we have directories to dump files
     path = op.expanduser(path)
 
     if len(path) == 0:
-        raise ValueError('You must specify a path. For current directory use .')
+        raise ValueError("You must specify a path. For current directory use .")
 
     download_url = _convert_url_to_downloadable(url)
 
     if replace is False and op.exists(path):
-        msg = ('Replace is False and data exists, so doing nothing. '
-               'Use replace==True to re-download the data.')
+        msg = (
+            "Replace is False and data exists, so doing nothing. "
+            "Use replace==True to re-download the data."
+        )
     elif kind in ZIP_KINDS:
         # Create new folder for data if we need it
         if not op.isdir(path):
             if verbose:
-                tqdm.write('Creating data folder...', file=sys.stdout)
+                tqdm.write("Creating data folder...", file=sys.stdout)
             os.makedirs(path)
 
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
         path_temp_file = op.join(path_temp, "tmp.{}".format(kind))
-        _fetch_file(download_url, path_temp_file, timeout=timeout,
-                    verbose=verbose, progressbar=progressbar)
+        _fetch_file(
+            download_url,
+            path_temp_file,
+            timeout=timeout,
+            verbose=verbose,
+            progressbar=progressbar,
+        )
 
         # Unzip the file to the out path
         if verbose:
-            tqdm.write('Extracting {} file...'.format(kind), file=sys.stdout)
-        if kind == 'zip':
+            tqdm.write("Extracting {} file...".format(kind), file=sys.stdout)
+        if kind == "zip":
             zipper = ZipFile
-        elif kind == 'tar':
+        elif kind == "tar":
             zipper = tarfile.open
-        elif kind == 'tar.gz':
-            zipper = partial(tarfile.open, mode='r:gz')
+        elif kind == "tar.gz":
+            zipper = partial(tarfile.open, mode="r:gz")
         with zipper(path_temp_file) as myobj:
             myobj.extractall(path)
-        msg = 'Successfully downloaded / unzipped to {}'.format(path)
+        msg = "Successfully downloaded / unzipped to {}".format(path)
     else:
         if not op.isdir(op.dirname(path)):
             os.makedirs(op.dirname(path))
-        _fetch_file(download_url, path, timeout=timeout, verbose=verbose, progressbar=progressbar)
-        msg = 'Successfully downloaded file to {}'.format(path)
+        _fetch_file(
+            download_url,
+            path,
+            timeout=timeout,
+            verbose=verbose,
+            progressbar=progressbar,
+        )
+        msg = "Successfully downloaded file to {}".format(path)
     if verbose:
         tqdm.write(msg, file=sys.stdout)
     return path
@@ -116,26 +129,33 @@ def download(url, path, kind='file',
 def _convert_url_to_downloadable(url):
     """Convert a url to the proper style depending on its website."""
 
-    if 'drive.google.com' in url:
+    if "drive.google.com" in url:
         # For future support of google drive
-        file_id = url.split('d/')[1].split('/')[0]
-        base_url = 'https://drive.google.com/uc?export=download&id='
-        out = '{}{}'.format(base_url, file_id)
-    elif 'dropbox.com' in url:
-        if url.endswith('.png'):
-            out = url + '?dl=1'
+        file_id = url.split("d/")[1].split("/")[0]
+        base_url = "https://drive.google.com/uc?export=download&id="
+        out = "{}{}".format(base_url, file_id)
+    elif "dropbox.com" in url:
+        if url.endswith(".png"):
+            out = url + "?dl=1"
         else:
-            out = url.replace('dl=0', 'dl=1')
-    elif 'github.com' in url:
-        out = url.replace('github.com', 'raw.githubusercontent.com')
-        out = out.replace('blob/', '')
+            out = url.replace("dl=0", "dl=1")
+    elif "github.com" in url:
+        out = url.replace("github.com", "raw.githubusercontent.com")
+        out = out.replace("blob/", "")
     else:
         out = url
     return out
 
 
-def _fetch_file(url, file_name, resume=True,
-                hash_=None, timeout=10., progressbar=True, verbose=True):
+def _fetch_file(
+    url,
+    file_name,
+    resume=True,
+    hash_=None,
+    timeout=10.0,
+    progressbar=True,
+    verbose=True,
+):
     """Load requested file, downloading it if needed or requested.
 
     Parameters
@@ -157,25 +177,27 @@ def _fetch_file(url, file_name, resume=True,
     # Adapted from NISL and MNE-python:
     # https://github.com/nisl/tutorial/blob/master/nisl/datasets.py
     # https://martinos.org/mne
-    if hash_ is not None and (not isinstance(hash_, string_types) or
-                              len(hash_) != 32):
-        raise ValueError('Bad hash value given, should be a 32-character '
-                         'string:\n%s' % (hash_,))
+    if hash_ is not None and (not isinstance(hash_, string_types) or len(hash_) != 32):
+        raise ValueError(
+            "Bad hash value given, should be a 32-character " "string:\n%s" % (hash_,)
+        )
     temp_file_name = file_name + ".part"
 
     try:
-        if 'dropbox.com' in url:
+        if "dropbox.com" in url:
             # Use requests to handle cookies.
             # XXX In the future, we should probably use requests everywhere.
             # Unless we want to minimize dependencies.
             try:
                 import requests
             except ModuleNotFoundError:
-                raise ValueError('To download Dropbox links, you need to '
-                                 'install the `requests` module.')
+                raise ValueError(
+                    "To download Dropbox links, you need to "
+                    "install the `requests` module."
+                )
             resp = requests.get(url)
             chunk_size = 8192  # 2 ** 13
-            with open(temp_file_name, 'wb') as ff:
+            with open(temp_file_name, "wb") as ff:
                 for chunk in resp.iter_content(chunk_size=chunk_size):
                     if chunk:  # filter out keep-alive new chunks
                         ff.write(chunk)
@@ -189,19 +211,21 @@ def _fetch_file(url, file_name, resume=True,
             req = request_agent(url)
             u = urllib.request.urlopen(req, timeout=timeout)
             try:
-                file_size = int(u.headers.get('Content-Length', '1').strip())
+                file_size = int(u.headers.get("Content-Length", "1").strip())
             finally:
                 u.close()
                 del u
             if verbose:
-                tqdm.write('Downloading data from %s (%s)\n'
-                           % (url, sizeof_fmt(file_size)), file=sys.stdout)
+                tqdm.write(
+                    "Downloading data from %s (%s)\n" % (url, sizeof_fmt(file_size)),
+                    file=sys.stdout,
+                )
 
             # Triage resume
             if not os.path.exists(temp_file_name):
                 resume = False
             if resume:
-                with open(temp_file_name, 'rb', buffering=0) as local_file:
+                with open(temp_file_name, "rb", buffering=0) as local_file:
                     local_file.seek(0, 2)
                     initial_size = local_file.tell()
                 del local_file
@@ -209,33 +233,45 @@ def _fetch_file(url, file_name, resume=True,
                 initial_size = 0
             # This should never happen if our functions work properly
             if initial_size > file_size:
-                raise RuntimeError('Local file (%s) is larger than remote '
-                                   'file (%s), cannot resume download'
-                                   % (sizeof_fmt(initial_size),
-                                      sizeof_fmt(file_size)))
+                raise RuntimeError(
+                    "Local file (%s) is larger than remote "
+                    "file (%s), cannot resume download"
+                    % (sizeof_fmt(initial_size), sizeof_fmt(file_size))
+                )
 
             scheme = urllib.parse.urlparse(url).scheme
-            fun = _get_http if scheme in ('http', 'https') else _get_ftp
-            fun(url, temp_file_name, initial_size, file_size, verbose,
-                progressbar, ncols=80)
+            fun = _get_http if scheme in ("http", "https") else _get_ftp
+            fun(
+                url,
+                temp_file_name,
+                initial_size,
+                file_size,
+                verbose,
+                progressbar,
+                ncols=80,
+            )
 
             # check md5sum
             if hash_ is not None:
                 if verbose:
-                    tqdm.write('Verifying download hash.', file=sys.stdout)
+                    tqdm.write("Verifying download hash.", file=sys.stdout)
                 md5 = md5sum(temp_file_name)
                 if hash_ != md5:
-                    raise RuntimeError('Hash mismatch for downloaded file %s, '
-                                       'expected %s but got %s'
-                                       % (temp_file_name, hash_, md5))
+                    raise RuntimeError(
+                        "Hash mismatch for downloaded file %s, "
+                        "expected %s but got %s" % (temp_file_name, hash_, md5)
+                    )
         shutil.move(temp_file_name, file_name)
     except Exception as ee:
-        raise RuntimeError('Error while fetching file %s.'
-                           ' Dataset fetching aborted.\nError: %s' % (url, ee))
+        raise RuntimeError(
+            "Error while fetching file %s."
+            " Dataset fetching aborted.\nError: %s" % (url, ee)
+        )
 
 
-def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
-             progressbar, ncols=80):
+def _get_ftp(
+    url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
+):
     """Safely (resume a) download to a file from FTP."""
     # Adapted from: https://pypi.python.org/pypi/fileDownloader.py
     # but with changes
@@ -258,54 +294,77 @@ def _get_ftp(url, temp_file_name, initial_size, file_size, verbose_bool,
     down_cmd = "RETR " + file_name
     assert file_size == data.size(file_name)
     if progressbar:
-        progress = tqdm(total=file_size, initial=initial_size,
-                        desc='file_sizes', ncols=ncols, unit='B',
-                        unit_scale=True, file=sys.stdout)
+        progress = tqdm(
+            total=file_size,
+            initial=initial_size,
+            desc="file_sizes",
+            ncols=ncols,
+            unit="B",
+            unit_scale=True,
+            file=sys.stdout,
+        )
     else:
         progress = None
 
     # Callback lambda function that will be passed the downloaded data
     # chunk and will write it to file and update the progress bar
-    mode = 'ab' if initial_size > 0 else 'wb'
+    mode = "ab" if initial_size > 0 else "wb"
     with open(temp_file_name, mode) as local_file:
+
         def chunk_write(chunk):
             return _chunk_write(chunk, local_file, progress)
+
         data.retrbinary(down_cmd, chunk_write)
         data.close()
     if progressbar:
         progress.close()
 
-def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
-              progressbar, ncols=80):
+
+def _get_http(
+    url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
+):
     """Safely (resume a) download to a file from http(s)."""
     # Actually do the reading
     req = request_agent(url)
     if initial_size > 0:
-        req.headers['Range'] = 'bytes=%s-' % (initial_size,)
+        req.headers["Range"] = "bytes=%s-" % (initial_size,)
     try:
         response = urllib.request.urlopen(req)
     except Exception:
         # There is a problem that may be due to resuming, some
         # servers may not support the "Range" header. Switch
         # back to complete download method
-        tqdm.write('Resuming download failed (server '
-                   'rejected the request). Attempting to '
-                   'restart downloading the entire file.', file=sys.stdout)
-        del req.headers['Range']
+        tqdm.write(
+            "Resuming download failed (server "
+            "rejected the request). Attempting to "
+            "restart downloading the entire file.",
+            file=sys.stdout,
+        )
+        del req.headers["Range"]
         response = urllib.request.urlopen(req)
-    total_size = int(response.headers.get('Content-Length', '1').strip())
+    total_size = int(response.headers.get("Content-Length", "1").strip())
     if initial_size > 0 and file_size == total_size:
-        tqdm.write('Resuming download failed (resume file size '
-                   'mismatch). Attempting to restart downloading the '
-                   'entire file.', file=sys.stdout)
+        tqdm.write(
+            "Resuming download failed (resume file size "
+            "mismatch). Attempting to restart downloading the "
+            "entire file.",
+            file=sys.stdout,
+        )
         initial_size = 0
     total_size += initial_size
     if total_size != file_size:
-        raise RuntimeError('URL could not be parsed properly')
-    mode = 'ab' if initial_size > 0 else 'wb'
+        raise RuntimeError("URL could not be parsed properly")
+    mode = "ab" if initial_size > 0 else "wb"
     if progressbar is True:
-        progress = tqdm(total=total_size, initial=initial_size, desc='file_sizes',
-                        ncols=ncols, unit='B', unit_scale=True, file=sys.stdout)
+        progress = tqdm(
+            total=total_size,
+            initial=initial_size,
+            desc="file_sizes",
+            ncols=ncols,
+            unit="B",
+            unit_scale=True,
+            file=sys.stdout,
+        )
 
     chunk_size = 8192  # 2 ** 13
     with open(temp_file_name, mode) as local_file:
@@ -325,6 +384,7 @@ def _get_http(url, temp_file_name, initial_size, file_size, verbose_bool,
     if progressbar is True:
         progress.close()
 
+
 def md5sum(fname, block_size=1048576):  # 2 ** 20
     """Calculate the md5sum for a file.
 
@@ -341,7 +401,7 @@ def md5sum(fname, block_size=1048576):  # 2 ** 20
         The hexadecimal digest of the hash.
     """
     md5 = hashlib.md5()
-    with open(fname, 'rb') as fid:
+    with open(fname, "rb") as fid:
         while True:
             data = fid.read(block_size)
             if not data:
@@ -370,19 +430,19 @@ def sizeof_fmt(num):
     size : str
         The size in human-readable format.
     """
-    units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB']
+    units = ["bytes", "kB", "MB", "GB", "TB", "PB"]
     decimals = [0, 0, 1, 2, 2, 2]
     if num > 1:
         exponent = min(int(log(num, 1024)), len(units) - 1)
         quotient = float(num) / 1024 ** exponent
         unit = units[exponent]
         num_decimals = decimals[exponent]
-        format_string = '{0:.%sf} {1}' % (num_decimals)
+        format_string = "{0:.%sf} {1}" % (num_decimals)
         return format_string.format(quotient, unit)
     if num == 0:
-        return '0 bytes'
+        return "0 bytes"
     if num == 1:
-        return '1 byte'
+        return "1 byte"
 
 
 class _TempDir(str):
@@ -398,7 +458,7 @@ class _TempDir(str):
     """
 
     def __new__(self):  # noqa: D105
-        new = str.__new__(self, tempfile.mkdtemp(prefix='tmp_download_tempdir_'))
+        new = str.__new__(self, tempfile.mkdtemp(prefix="tmp_download_tempdir_"))
         return new
 
     def __init__(self):  # noqa: D102
@@ -410,11 +470,11 @@ class _TempDir(str):
 
 def request_agent(url):
     req = urllib.request.Request(
-                url,
-                data = None,
-                # Simulate a user-agent because some websites require it for this to work
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-                }
-            )
+        url,
+        data=None,
+        # Simulate a user-agent because some websites require it for this to work
+        headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36"
+        },
+    )
     return req

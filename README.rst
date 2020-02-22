@@ -2,8 +2,9 @@
   :target: https://codecov.io/gh/choldgraf/download
   :align: left
 
-.. image:: https://travis-ci.org/choldgraf/download.svg?branch=master
-  :align: left
+.. image:: https://circleci.com/gh/choldgraf/download.svg?style=svg
+    :target: https://circleci.com/gh/choldgraf/download
+    :align: left
 
 Download
 --------
@@ -64,7 +65,7 @@ Whether to display a progress bar during file download.
 Defaults to `True`::
 
   path = download(url, file_path, progressbar=True)
-  
+
 Replace
 ^^^^^^^
 
@@ -72,7 +73,7 @@ If `True` and the URL points to a single file, overwrite the old file if possibl
 Defaults to `False`::
 
   path = download(url, file_path, replace=False)
-  
+
 Timeout
 ^^^^^^^
 
@@ -80,7 +81,7 @@ The URL open timeout in seconds.
 Defaults to 10 seconds::
 
   path = download(url, file_path, timeout=10)
-  
+
 Verbose
 ^^^^^^^
 
