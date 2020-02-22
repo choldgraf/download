@@ -15,9 +15,9 @@ import shutil as sh
 # Downloading a file simply requires that you have a URL.
 
 url = "https://ndownloader.figshare.com/files/7010681"
-path = download(url, './downloaded/boulder-precip.csv', replace=True)
+path = download(url, "./downloaded/boulder-precip.csv", replace=True)
 data = pd.read_csv(path)
-ax = data.plot('DATE', 'PRECIP')
+ax = data.plot("DATE", "PRECIP")
 ax.set(title="Precipitation over time in Boulder, CO")
 plt.setp(ax.get_xticklabels(), rotation=45)
 plt.tight_layout()
@@ -27,8 +27,8 @@ plt.tight_layout()
 # using ``zipfile=True``.
 
 url = "http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip"
-path = download(url, './downloaded/counties/', replace=True, kind='zip')
-print(glob(op.join(path, '*')))
-sh.rmtree('./downloaded')
+path = download(url, "./downloaded/counties/", replace=True, kind="zip")
+print(glob(op.join(path, "*")))
+sh.rmtree("./downloaded")
 
 plt.show()

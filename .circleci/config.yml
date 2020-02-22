@@ -12,10 +12,7 @@ jobs:
           keys:
             - cache-pip
 
-      - run: pip install --user -r requirements.txt
-      - run: pip install --user pytest pytest-cov .
-      - run: pip install codecov sphinx sphinx-gallery
-      - run: pip install --user -e .
+      - run: pip install --user -e .[dev,sphinx]
 
 
       - save_cache:

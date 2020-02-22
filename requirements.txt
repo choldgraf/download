@@ -1,4 +1,0 @@
-tqdm
-six
-requests
-numpy
