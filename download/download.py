@@ -262,7 +262,9 @@ def _fetch_file(
         local_file_size = get_file_size(temp_file_name)
         if local_file_size != remote_file_size:
             if remote_file_size != remote_file_size_default:
-                raise Exception("Error: File size is %d and should be %d" % (local_file_size, remote_file_size))
+                raise Exception("Error: File size is %d and should be %d"
+                                "* Please wait some time and try re-downloading the file again."
+                                % (local_file_size, remote_file_size))
         shutil.move(temp_file_name, file_name)
     except Exception as ee:
         raise RuntimeError(
