@@ -89,3 +89,18 @@ Whether to print download status to the screen.
 Defaults to `True`::
 
   path = download(url, file_path, verbose=True)
+
+
+Frequently Asked Questions
+--------------------------
+
+.. _faq/file-size:
+
+Why do I occasionally get a "Error file size is..." error?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Occasionally, when you try to download a file, the server from
+which you are downloading will return that the download is finished,
+when it is not. ``download`` will check whether the final downloaded
+file is the correct size. If not, it will throw this error. In this case,
+you should try re-downloading the file.
