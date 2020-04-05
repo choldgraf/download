@@ -61,6 +61,6 @@ if __name__ == "__main__":
         install_requires=["tqdm", "six", "requests"],
         extras_require={
             "dev": ["numpy", "codecov", "pytest", "pytest-cov"],
-            "sphinx": ["matplotlib", "pandas", "sphinx", "sphinx-gallery"],
+            "sphinx": ["matplotlib", "pandas", "sphinx", "sphinx-gallery", "pillow"],
         },
     )
