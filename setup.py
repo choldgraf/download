@@ -11,11 +11,11 @@ from setuptools import setup
 
 descr = """A quick module to help downloading files using python."""
 
-with open('./download/__init__.py', 'r') as ff:
+with open("./download/__init__.py", "r") as ff:
     lines = ff.readlines()
     for line in lines:
-        if line.startswith('__version__'):
-            __version__ = line.split('= ')[-1].strip('"')
+        if line.startswith("__version__"):
+            __version__ = line.split("= ")[-1].strip('"')
             break
 
 DISTNAME = "download"
@@ -61,6 +61,6 @@ if __name__ == "__main__":
         install_requires=["tqdm", "six", "requests"],
         extras_require={
             "dev": ["numpy", "codecov", "pytest", "pytest-cov"],
-            "sphinx": ["matplotlib", "pandas", "sphinx", "sphinx-gallery"],
+            "sphinx": ["matplotlib", "pandas", "sphinx", "sphinx-gallery", "pillow"],
         },
     )
