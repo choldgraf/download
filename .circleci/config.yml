@@ -30,11 +30,11 @@ jobs:
       - run:
           name: Build docs to store
           command: |
-            cd doc
+            cd docs
             make html
 
       - store_artifacts:
-          path: doc/_build/html/
+          path: docs/_build/html/
           destination: html
 
       - add_ssh_keys:
@@ -47,7 +47,7 @@ jobs:
             if [ ${CIRCLE_BRANCH} == "master" ]
             then
             pip install ghp-import
-            ghp-import doc/_build/html -n -p -f
+            ghp-import docs/_build/html -n -p -f
             fi
 
 
