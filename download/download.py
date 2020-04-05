@@ -185,6 +185,7 @@ def _fetch_file(
     temp_file_name = file_name + ".part"
 
     try:
+        remote_file_size = remote_file_size_default
         if "dropbox.com" in url:
             # Use requests to handle cookies.
             # XXX In the future, we should probably use requests everywhere.
