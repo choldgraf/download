@@ -23,9 +23,10 @@ else:
 ALLOWED_KINDS = ["file", "tar", "zip", "tar.gz"]
 ZIP_KINDS = ["tar", "zip", "tar.gz"]
 
+remote_file_size_default = 1
 
 def download(
-    url, path, kind="file", progressbar=True, replace=False, timeout=10.0, verbose=True
+        url, path, kind="file", progressbar=True, replace=False, timeout=10.0, verbose=True
 ):
     """Download a URL.
 
@@ -148,13 +149,13 @@ def _convert_url_to_downloadable(url):
 
 
 def _fetch_file(
-    url,
-    file_name,
-    resume=True,
-    hash_=None,
-    timeout=10.0,
-    progressbar=True,
-    verbose=True,
+        url,
+        file_name,
+        resume=True,
+        hash_=None,
+        timeout=10.0,
+        progressbar=True,
+        verbose=True,
 ):
     """Load requested file, downloading it if needed or requested.
 
@@ -211,13 +212,13 @@ def _fetch_file(
             req = request_agent(url)
             u = urllib.request.urlopen(req, timeout=timeout)
             try:
-                file_size = int(u.headers.get("Content-Length", "1").strip())
+                remote_file_size = int(u.headers.get("Content-Length", str(remote_file_size_default)).strip())
             finally:
                 u.close()
                 del u
             if verbose:
                 tqdm.write(
-                    "Downloading data from %s (%s)\n" % (url, sizeof_fmt(file_size)),
+                    "Downloading data from %s (%s)\n" % (url, sizeof_fmt(remote_file_size)),
                     file=sys.stdout,
                 )
 
@@ -225,18 +226,15 @@ def _fetch_file(
             if not os.path.exists(temp_file_name):
                 resume = False
             if resume:
-                with open(temp_file_name, "rb", buffering=0) as local_file:
-                    local_file.seek(0, 2)
-                    initial_size = local_file.tell()
-                del local_file
+                initial_size = get_file_size(temp_file_name)
             else:
                 initial_size = 0
             # This should never happen if our functions work properly
-            if initial_size > file_size:
+            if initial_size > remote_file_size:
                 raise RuntimeError(
                     "Local file (%s) is larger than remote "
                     "file (%s), cannot resume download"
-                    % (sizeof_fmt(initial_size), sizeof_fmt(file_size))
+                    % (sizeof_fmt(initial_size), sizeof_fmt(remote_file_size))
                 )
 
             scheme = urllib.parse.urlparse(url).scheme
@@ -245,7 +243,7 @@ def _fetch_file(
                 url,
                 temp_file_name,
                 initial_size,
-                file_size,
+                remote_file_size,
                 verbose,
                 progressbar,
                 ncols=80,
@@ -261,6 +259,12 @@ def _fetch_file(
                         "Hash mismatch for downloaded file %s, "
                         "expected %s but got %s" % (temp_file_name, hash_, md5)
                     )
+        local_file_size = get_file_size(temp_file_name)
+        if local_file_size != remote_file_size:
+            if remote_file_size != remote_file_size_default:
+                raise Exception("Error: File size is %d and should be %d"
+                                "* Please wait some time and try re-downloading the file again."
+                                % (local_file_size, remote_file_size))
         shutil.move(temp_file_name, file_name)
     except Exception as ee:
         raise RuntimeError(
@@ -270,7 +274,7 @@ def _fetch_file(
 
 
 def _get_ftp(
-    url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
+        url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
 ):
     """Safely (resume a) download to a file from FTP."""
     # Adapted from: https://pypi.python.org/pypi/fileDownloader.py
@@ -321,7 +325,7 @@ def _get_ftp(
 
 
 def _get_http(
-    url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
+        url, temp_file_name, initial_size, file_size, verbose_bool, progressbar, ncols=80
 ):
     """Safely (resume a) download to a file from http(s)."""
     # Actually do the reading
@@ -342,7 +346,7 @@ def _get_http(
         )
         del req.headers["Range"]
         response = urllib.request.urlopen(req)
-    total_size = int(response.headers.get("Content-Length", "1").strip())
+    total_size = int(response.headers.get("Content-Length", str(remote_file_size_default)).strip())
     if initial_size > 0 and file_size == total_size:
         tqdm.write(
             "Resuming download failed (resume file size "
@@ -478,3 +482,11 @@ def request_agent(url):
         },
     )
     return req
+
+
+def get_file_size(file_name):
+    with open(file_name, "rb", buffering=0) as local_file:
+        local_file.seek(0, 2)  # move the cursor to the end of the file
+        local_file_size = local_file.tell()
+    del local_file
+    return local_file_size
