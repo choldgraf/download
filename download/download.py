@@ -23,6 +23,7 @@ else:
 ALLOWED_KINDS = ["file", "tar", "zip", "tar.gz"]
 ZIP_KINDS = ["tar", "zip", "tar.gz"]
 
+remote_file_size_default = 1
 
 def download(
         url, path, kind="file", progressbar=True, replace=False, timeout=10.0, verbose=True
@@ -211,7 +212,7 @@ def _fetch_file(
             req = request_agent(url)
             u = urllib.request.urlopen(req, timeout=timeout)
             try:
-                remote_file_size = int(u.headers.get("Content-Length", "1").strip())
+                remote_file_size = int(u.headers.get("Content-Length", str(remote_file_size_default)).strip())
             finally:
                 u.close()
                 del u
@@ -260,7 +261,8 @@ def _fetch_file(
                     )
         local_file_size = get_file_size(temp_file_name)
         if local_file_size != remote_file_size:
-            raise Exception("Error: File size is %d and should be %d" % (local_file_size, remote_file_size))
+            if remote_file_size != remote_file_size_default:
+                raise Exception("Error: File size is %d and should be %d" % (local_file_size, remote_file_size))
         shutil.move(temp_file_name, file_name)
     except Exception as ee:
         raise RuntimeError(
@@ -342,7 +344,7 @@ def _get_http(
         )
         del req.headers["Range"]
         response = urllib.request.urlopen(req)
-    total_size = int(response.headers.get("Content-Length", "1").strip())
+    total_size = int(response.headers.get("Content-Length", str(remote_file_size_default)).strip())
     if initial_size > 0 and file_size == total_size:
         tqdm.write(
             "Resuming download failed (resume file size "
