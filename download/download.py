@@ -315,7 +315,7 @@ def _get_ftp(
             unit="B",
             unit_scale=True,
             file=sys.stdout,
-            disable=not progresbar
+            disable=not progressbar
         ) as progress:
         # Callback lambda function that will be passed the downloaded data
         # chunk and will write it to file and update the progress bar
