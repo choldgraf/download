@@ -60,9 +60,9 @@ necessary.
 
  .. code-block:: none
 
-    Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/kb2gs3om4eqh6tnmnvutd61lcg1snhbk/1586986200000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
+    Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/hb49ounfot9d14andn0elc9sn7ens65n/1586988975000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
 
-    file_sizes:   0%|                                   | 0.00/35.6k [00:00<?, ?B/s]    file_sizes: 100%|##########################| 35.6k/35.6k [00:00<00:00, 44.8MB/s]
+    file_sizes:   0%|                                   | 0.00/35.6k [00:00<?, ?B/s]    file_sizes: 100%|##########################| 35.6k/35.6k [00:00<00:00, 43.0MB/s]
     Successfully downloaded file to ./downloaded/citation.png
 
 
@@ -97,9 +97,9 @@ The same works for Google Drive content.
 
  .. code-block:: none
 
-    Downloading data from https://raw.githubusercontent.com/choldgraf/download/master/examples/data/citation.png (35 kB)
+    Downloading data from https://github.com/choldgraf/download/blob/master/examples/data/citation.png (1 byte)
 
-    file_sizes:   0%|                                   | 0.00/35.6k [00:00<?, ?B/s]    file_sizes: 100%|##########################| 35.6k/35.6k [00:00<00:00, 79.5MB/s]
+    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 65.8kB [00:00, 12.3MB/s]                                            
     Successfully downloaded file to ./downloaded/citation2.png
 
 
@@ -144,7 +144,7 @@ requires cookies and requests is smart about handling this.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.946 seconds)
+   **Total running time of the script:** ( 0 minutes  1.835 seconds)
 
 
 .. _sphx_glr_download_gallery_plot_download_providers.py:
