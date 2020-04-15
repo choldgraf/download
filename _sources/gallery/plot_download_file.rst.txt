@@ -60,7 +60,7 @@ Downloading a file simply requires that you have a URL.
 
     Downloading data from https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/7010681/precipboulderaugoct2013.csv (391 bytes)
 
-    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 363kB/s]
+    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 963kB/s]
     Successfully downloaded file to ./downloaded/boulder-precip.csv
 
 
@@ -90,12 +90,12 @@ using ``zipfile=True``.
  .. code-block:: none
 
     Creating data folder...
-    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.44bef748.1586112185.31a7a0f3 (1 byte)
+    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.bf0ac617.1586980196.b0ae807 (1 byte)
 
-    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 188kB [00:00, 1.11MB/s]                                                 file_sizes: 319kB [00:00, 1.00MB/s]    file_sizes: 451kB [00:00, 923kB/s]     file_sizes: 582kB [00:00, 901kB/s]    file_sizes: 713kB [00:00, 852kB/s]    file_sizes: 844kB [00:00, 850kB/s]    file_sizes: 880kB [00:01, 837kB/s]
+    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 880kB [00:00, 135MB/s]                                              
     Extracting zip file...
     Successfully downloaded / unzipped to ./downloaded/counties/
-    ['./downloaded/counties/cb_2016_us_county_20m.dbf', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml']
+    ['./downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.dbf', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shp']
 
 
 
@@ -103,7 +103,7 @@ using ``zipfile=True``.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.122 seconds)
+   **Total running time of the script:** ( 0 minutes  2.060 seconds)
 
 
 .. _sphx_glr_download_gallery_plot_download_file.py:
