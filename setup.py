@@ -8,7 +8,7 @@
 import os
 import setuptools
 from setuptools import setup
-from .download import __version__
+from .download.__init__ import __version__
 
 
 descr = """A quick module to help downloading files using python."""
