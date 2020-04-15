@@ -60,7 +60,7 @@ Downloading a file simply requires that you have a URL.
 
     Downloading data from https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/7010681/precipboulderaugoct2013.csv (391 bytes)
 
-    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 970kB/s]
+    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 938kB/s]
     Successfully downloaded file to ./downloaded/boulder-precip.csv
 
 
@@ -90,12 +90,12 @@ using ``zipfile=True``.
  .. code-block:: none
 
     Creating data folder...
-    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.246019b8.1586980288.31f8cb33 (1 byte)
+    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.246019b8.1586984512.329ba125 (1 byte)
 
-    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 880kB [00:00, 72.8MB/s]                                             
+    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 880kB [00:00, 92.1MB/s]                                             
     Extracting zip file...
     Successfully downloaded / unzipped to ./downloaded/counties/
-    ['./downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml', './downloaded/counties/cb_2016_us_county_20m.dbf']
+    ['./downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml', './downloaded/counties/cb_2016_us_county_20m.dbf', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shx']
 
 
 
@@ -103,7 +103,7 @@ using ``zipfile=True``.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.002 seconds)
+   **Total running time of the script:** ( 0 minutes  2.194 seconds)
 
 
 .. _sphx_glr_download_gallery_plot_download_file.py:
