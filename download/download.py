@@ -113,8 +113,9 @@ def download(
             myobj.extractall(path)
         msg = "Successfully downloaded / unzipped to {}".format(path)
     else:
-        if not op.isdir(op.dirname(path)) and path:
-            os.makedirs(op.dirname(path), exist_ok=True)
+        directory = op.dirname(path)
+        if not op.isdir(directory) and directory:
+            os.makedirs(directory, exist_ok=True)
         _fetch_file(
             download_url,
             path,
