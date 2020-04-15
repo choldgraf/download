@@ -307,8 +307,7 @@ def _get_ftp(
     data.sendcmd("REST " + str(initial_size))
     down_cmd = "RETR " + file_name
     assert file_size == data.size(file_name)
-    if progressbar:
-        progress = tqdm(
+    with tqdm(
             total=file_size,
             initial=initial_size,
             desc="file_sizes",
@@ -316,22 +315,18 @@ def _get_ftp(
             unit="B",
             unit_scale=True,
             file=sys.stdout,
-        )
-    else:
-        progress = None
+            disable=not progressbar
+        ) as progress:
+        # Callback lambda function that will be passed the downloaded data
+        # chunk and will write it to file and update the progress bar
+        mode = "ab" if initial_size > 0 else "wb"
+        with open(temp_file_name, mode) as local_file:
 
-    # Callback lambda function that will be passed the downloaded data
-    # chunk and will write it to file and update the progress bar
-    mode = "ab" if initial_size > 0 else "wb"
-    with open(temp_file_name, mode) as local_file:
+            def chunk_write(chunk):
+                return _chunk_write(chunk, local_file, progress)
 
-        def chunk_write(chunk):
-            return _chunk_write(chunk, local_file, progress)
-
-        data.retrbinary(down_cmd, chunk_write)
-        data.close()
-    if progressbar:
-        progress.close()
+            data.retrbinary(down_cmd, chunk_write)
+            data.close()
 
 
 def _get_http(
@@ -371,8 +366,7 @@ def _get_http(
     if total_size != file_size:
         raise RuntimeError("URL could not be parsed properly")
     mode = "ab" if initial_size > 0 else "wb"
-    if progressbar is True:
-        progress = tqdm(
+    with tqdm(
             total=total_size,
             initial=initial_size,
             desc="file_sizes",
@@ -380,25 +374,23 @@ def _get_http(
             unit="B",
             unit_scale=True,
             file=sys.stdout,
-        )
+            disable=not progressbar
+        ) as progress:
 
-    chunk_size = 8192  # 2 ** 13
-    with open(temp_file_name, mode) as local_file:
-        while True:
-            t0 = time.time()
-            chunk = response.read(chunk_size)
-            dt = time.time() - t0
-            if dt < 0.005:
-                chunk_size *= 2
-            elif dt > 0.1 and chunk_size > 8192:
-                chunk_size = chunk_size // 2
-            if not chunk:
-                break
-            local_file.write(chunk)
-            if progressbar is True:
+        chunk_size = 8192  # 2 ** 13
+        with open(temp_file_name, mode) as local_file:
+            while True:
+                t0 = time.time()
+                chunk = response.read(chunk_size)
+                dt = time.time() - t0
+                if dt < 0.005:
+                    chunk_size *= 2
+                elif dt > 0.1 and chunk_size > 8192:
+                    chunk_size = chunk_size // 2
+                if not chunk:
+                    break
+                local_file.write(chunk)
                 progress.update(len(chunk))
-    if progressbar is True:
-        progress.close()
 
 
 def md5sum(fname, block_size=1048576):  # 2 ** 20
