@@ -233,7 +233,7 @@ def _fetch_file(
             if not os.path.exists(temp_file_name):
                 resume = False
             if resume:
-                initial_size = get_file_size(temp_file_name)
+                initial_size = op.getsize(temp_file_name)
             else:
                 initial_size = 0
             # This should never happen if our functions work properly
@@ -266,7 +266,7 @@ def _fetch_file(
                         "Hash mismatch for downloaded file %s, "
                         "expected %s but got %s" % (temp_file_name, hash_, md5)
                     )
-        local_file_size = get_file_size(temp_file_name)
+        local_file_size = op.getsize(temp_file_name)
         if local_file_size != remote_file_size:
             if remote_file_size != remote_file_size_default:
                 raise Exception(
@@ -493,11 +493,3 @@ def request_agent(url):
         },
     )
     return req
-
-
-def get_file_size(file_name):
-    with open(file_name, "rb", buffering=0) as local_file:
-        local_file.seek(0, 2)  # move the cursor to the end of the file
-        local_file_size = local_file.tell()
-    del local_file
-    return local_file_size
