@@ -84,10 +84,10 @@ def download(
         )
     elif kind in ZIP_KINDS:
         # Create new folder for data if we need it
-        if not op.isdir(path):
+        if not op.isdir(path) and path:
             if verbose:
                 tqdm.write("Creating data folder...", file=sys.stdout)
-            os.makedirs(path)
+            os.makedirs(path, exist_ok=True)
 
         # Download the file to a temporary folder to unzip
         path_temp = _TempDir()
@@ -113,8 +113,9 @@ def download(
             myobj.extractall(path)
         msg = "Successfully downloaded / unzipped to {}".format(path)
     else:
-        if not op.isdir(op.dirname(path)):
-            os.makedirs(op.dirname(path))
+        directory = op.dirname(path)
+        if not op.isdir(directory) and directory:
+            os.makedirs(directory, exist_ok=True)
         _fetch_file(
             download_url,
             path,
