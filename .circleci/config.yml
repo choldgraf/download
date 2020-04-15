@@ -51,7 +51,7 @@ run_tests: &run_tests
 jobs:
   tests-python27:
     docker:
-      - image: circleci/python:3.6-stretch
+      - image: circleci/python:2.7-stretch
     <<: *run_tests
 
   tests-python36:
@@ -66,7 +66,7 @@ jobs:
 
   tests-python38:
     docker:
-      - image: circleci/python:3.8-stretch
+      - image: circleci/python:3.8
     <<: *run_tests
 
 workflows:
