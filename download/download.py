@@ -198,7 +198,7 @@ def _fetch_file(
                     "To download Dropbox links, you need to "
                     "install the `requests` module."
                 )
-            resp = requests.get(url)
+            resp = requests.get(url, stream=True)
             chunk_size = 8192  # 2 ** 13
             with open(temp_file_name, "wb") as ff:
                 for chunk in resp.iter_content(chunk_size=chunk_size):
