@@ -1,58 +1,79 @@
 version: 2
+
+run_tests: &run_tests
+  steps:
+    # Get our data and merge with upstream
+    - run: sudo apt-get update
+    - checkout
+
+    - restore_cache:
+        keys:
+          - cache-pip
+
+    - run: pip install --user -e .[dev,sphinx]
+
+
+    - save_cache:
+        key: cache-pip
+        paths:
+          - ~/.cache/pip
+    # Run tests
+    - run:
+        name: Run tests
+        command: |
+          pytest --cov=download
+          codecov
+
+    # Build the docs
+    - run:
+        name: Build docs to store
+        command: |
+          cd docs
+          make html
+
+    - store_artifacts:
+        path: docs/_build/html/
+        destination: html
+
+    - add_ssh_keys:
+        fingerprints:
+          # The SSH key fingerprint
+          - "a4:05:d7:6d:1c:cd:0b:d9:cf:c1:0b:0f:d0:c3:e6:93"
+    - run:
+        name: Deploy documentation on master
+        command: |
+          if [ ${CIRCLE_BRANCH} == "master" ]
+          then
+          pip install ghp-import
+          ghp-import docs/_build/html -n -p -f
+          fi
+
 jobs:
-  tests:
+  tests-python27:
     docker:
       - image: circleci/python:3.6-stretch
-    steps:
-      # Get our data and merge with upstream
-      - run: sudo apt-get update
-      - checkout
+    <<: *run_tests
 
-      - restore_cache:
-          keys:
-            - cache-pip
+  tests-python36:
+    docker:
+      - image: circleci/python:3.6-stretch
+    <<: *run_tests
 
-      - run: pip install --user -e .[dev,sphinx]
+  tests-python37:
+    docker:
+      - image: circleci/python:3.7-stretch
+    <<: *run_tests
 
-
-      - save_cache:
-          key: cache-pip
-          paths:
-            - ~/.cache/pip
-      # Run tests
-      - run:
-          name: Run tests
-          command: |
-            pytest --cov=download
-            codecov
-
-      # Build the docs
-      - run:
-          name: Build docs to store
-          command: |
-            cd docs
-            make html
-
-      - store_artifacts:
-          path: docs/_build/html/
-          destination: html
-
-      - add_ssh_keys:
-          fingerprints:
-            # The SSH key fingerprint
-            - "a4:05:d7:6d:1c:cd:0b:d9:cf:c1:0b:0f:d0:c3:e6:93"
-      - run:
-          name: Deploy documentation on master
-          command: |
-            if [ ${CIRCLE_BRANCH} == "master" ]
-            then
-            pip install ghp-import
-            ghp-import docs/_build/html -n -p -f
-            fi
-
+  tests-python38:
+    docker:
+      - image: circleci/python:3.8-stretch
+    <<: *run_tests
 
 workflows:
   version: 2
   default:
     jobs:
-      - tests
+      - tests-python27
+      - tests-python36
+      - tests-python37
+      - tests-python38
