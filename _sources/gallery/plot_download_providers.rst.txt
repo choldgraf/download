@@ -1,12 +1,10 @@
-.. only:: html
+.. note::
+    :class: sphx-glr-download-link-note
 
-    .. note::
-        :class: sphx-glr-download-link-note
+    Click :ref:`here <sphx_glr_download_gallery_plot_download_providers.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
-        Click :ref:`here <sphx_glr_download_gallery_plot_download_providers.py>`     to download the full example code
-    .. rst-class:: sphx-glr-example-title
-
-    .. _sphx_glr_gallery_plot_download_providers.py:
+.. _sphx_glr_gallery_plot_download_providers.py:
 
 
 Download from Dropbox, Google Drive, and Github
@@ -23,7 +21,6 @@ While you can go through a little extra effort to get a direct download link,
     import matplotlib.pyplot as plt
     import os.path as op
     import shutil as sh
-
 
 
 
@@ -60,11 +57,10 @@ necessary.
 
  .. code-block:: none
 
-    Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/hb49ounfot9d14andn0elc9sn7ens65n/1586988975000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
+    Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/vrs9pisj5rda2abg85fr40mlbkivlno2/1586989200000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
 
-    file_sizes:   0%|                                   | 0.00/35.6k [00:00<?, ?B/s]    file_sizes: 100%|##########################| 35.6k/35.6k [00:00<00:00, 43.0MB/s]
+    file_sizes:   0%|                                   | 0.00/35.6k [00:00<?, ?B/s]    file_sizes: 100%|##########################| 35.6k/35.6k [00:00<00:00, 12.7MB/s]
     Successfully downloaded file to ./downloaded/citation.png
-
 
 
 
@@ -99,9 +95,8 @@ The same works for Google Drive content.
 
     Downloading data from https://github.com/choldgraf/download/blob/master/examples/data/citation.png (1 byte)
 
-    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 65.8kB [00:00, 12.3MB/s]                                            
+    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 65.8kB [00:00, 9.41MB/s]                                            
     Successfully downloaded file to ./downloaded/citation2.png
-
 
 
 
@@ -141,10 +136,9 @@ requires cookies and requests is smart about handling this.
 
 
 
-
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.835 seconds)
+   **Total running time of the script:** ( 0 minutes  1.836 seconds)
 
 
 .. _sphx_glr_download_gallery_plot_download_providers.py:
@@ -157,13 +151,13 @@ requires cookies and requests is smart about handling this.
 
 
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+  .. container:: sphx-glr-download
 
      :download:`Download Python source code: plot_download_providers.py <plot_download_providers.py>`
 
 
 
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
+  .. container:: sphx-glr-download
 
      :download:`Download Jupyter notebook: plot_download_providers.ipynb <plot_download_providers.ipynb>`
 

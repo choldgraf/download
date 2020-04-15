@@ -17,9 +17,9 @@ Here is a short gallery showing off ``download`` functionality:
 
 .. only:: html
 
- .. figure:: /gallery/images/thumb/sphx_glr_plot_download_file_thumb.png
+    .. figure:: /gallery/images/thumb/sphx_glr_plot_download_file_thumb.png
 
-     :ref:`sphx_glr_gallery_plot_download_file.py`
+        :ref:`sphx_glr_gallery_plot_download_file.py`
 
 .. raw:: html
 
@@ -33,13 +33,13 @@ Here is a short gallery showing off ``download`` functionality:
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="It&#x27;s also possible to download files from Github, Google Drive, and Dropbox. While you can go t...">
+    <div class="sphx-glr-thumbcontainer" tooltip="It's also possible to download files from Github, Google Drive, and Dropbox. While you can go t...">
 
 .. only:: html
 
- .. figure:: /gallery/images/thumb/sphx_glr_plot_download_providers_thumb.png
+    .. figure:: /gallery/images/thumb/sphx_glr_plot_download_providers_thumb.png
 
-     :ref:`sphx_glr_gallery_plot_download_providers.py`
+        :ref:`sphx_glr_gallery_plot_download_providers.py`
 
 .. raw:: html
 
@@ -52,7 +52,7 @@ Here is a short gallery showing off ``download`` functionality:
    /gallery/plot_download_providers
 .. raw:: html
 
-    <div class="sphx-glr-clear"></div>
+    <div style='clear:both'></div>
 
 
 
@@ -62,13 +62,13 @@ Here is a short gallery showing off ``download`` functionality:
     :class: sphx-glr-footer-gallery
 
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+  .. container:: sphx-glr-download
 
     :download:`Download all examples in Python source code: gallery_python.zip <//home/circleci/project/docs/gallery/gallery_python.zip>`
 
 
 
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
+  .. container:: sphx-glr-download
 
     :download:`Download all examples in Jupyter notebooks: gallery_jupyter.zip <//home/circleci/project/docs/gallery/gallery_jupyter.zip>`
 

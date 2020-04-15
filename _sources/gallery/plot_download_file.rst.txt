@@ -1,12 +1,10 @@
-.. only:: html
+.. note::
+    :class: sphx-glr-download-link-note
 
-    .. note::
-        :class: sphx-glr-download-link-note
+    Click :ref:`here <sphx_glr_download_gallery_plot_download_file.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
-        Click :ref:`here <sphx_glr_download_gallery_plot_download_file.py>`     to download the full example code
-    .. rst-class:: sphx-glr-example-title
-
-    .. _sphx_glr_gallery_plot_download_file.py:
+.. _sphx_glr_gallery_plot_download_file.py:
 
 
 Downloading files and zipfiles
@@ -23,7 +21,6 @@ This example shows off how to download a file, and optionally unzip it.
     import os.path as op
     from glob import glob
     import shutil as sh
-
 
 
 
@@ -60,9 +57,8 @@ Downloading a file simply requires that you have a URL.
 
     Downloading data from https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/7010681/precipboulderaugoct2013.csv (391 bytes)
 
-    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 815kB/s]
+    file_sizes:   0%|                                     | 0.00/391 [00:00<?, ?B/s]    file_sizes: 100%|###############################| 391/391 [00:00<00:00, 380kB/s]
     Successfully downloaded file to ./downloaded/boulder-precip.csv
-
 
 
 
@@ -90,20 +86,19 @@ using ``zipfile=True``.
  .. code-block:: none
 
     Creating data folder...
-    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.3d6019b8.1586989004.5c72d641 (1 byte)
+    Downloading data from https://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_county_20m.zip?sec_ak_reference=18.6a94dc17.1586989225.3ac99c30 (1 byte)
 
-    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 880kB [00:00, 108MB/s]                                              
+    file_sizes:   0%|                                    | 0.00/1.00 [00:00<?, ?B/s]    file_sizes: 880kB [00:00, 57.2MB/s]                                             
     Extracting zip file...
     Successfully downloaded / unzipped to ./downloaded/counties/
-    ['./downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.dbf', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml']
-
+    ['./downloaded/counties/cb_2016_us_county_20m.shp.ea.iso.xml', './downloaded/counties/cb_2016_us_county_20m.shx', './downloaded/counties/cb_2016_us_county_20m.shp.xml', './downloaded/counties/cb_2016_us_county_20m.prj', './downloaded/counties/cb_2016_us_county_20m.cpg', './downloaded/counties/cb_2016_us_county_20m.shp', './downloaded/counties/cb_2016_us_county_20m.shp.iso.xml', './downloaded/counties/cb_2016_us_county_20m.dbf']
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.985 seconds)
+   **Total running time of the script:** ( 0 minutes  1.846 seconds)
 
 
 .. _sphx_glr_download_gallery_plot_download_file.py:
@@ -116,13 +111,13 @@ using ``zipfile=True``.
 
 
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+  .. container:: sphx-glr-download
 
      :download:`Download Python source code: plot_download_file.py <plot_download_file.py>`
 
 
 
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
+  .. container:: sphx-glr-download
 
      :download:`Download Jupyter notebook: plot_download_file.ipynb <plot_download_file.ipynb>`
 

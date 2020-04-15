@@ -5,10 +5,7 @@
 
 Computation times
 =================
-**00:03.820** total execution time for **gallery** files:
+**00:03.682** total execution time for **gallery** files:
 
-+-------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_gallery_plot_download_file.py` (``plot_download_file.py``)           | 00:01.985 | 0.0 MB |
-+-------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_gallery_plot_download_providers.py` (``plot_download_providers.py``) | 00:01.835 | 0.0 MB |
-+-------------------------------------------------------------------------------------+-----------+--------+
+- **00:01.846**: :ref:`sphx_glr_gallery_plot_download_file.py` (``plot_download_file.py``)
+- **00:01.836**: :ref:`sphx_glr_gallery_plot_download_providers.py` (``plot_download_providers.py``)
