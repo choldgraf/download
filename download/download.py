@@ -142,9 +142,6 @@ def _convert_url_to_downloadable(url):
             out = url + "?dl=1"
         else:
             out = url.replace("dl=0", "dl=1")
-    elif "github.com" in url:
-        out = url.replace("github.com", "raw.githubusercontent.com")
-        out = out.replace("blob/", "")
     else:
         out = url
     return out
