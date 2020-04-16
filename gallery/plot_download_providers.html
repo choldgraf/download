@@ -1,20 +1,20 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Download from Dropbox, Google Drive, and Github &#8212; download 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Downloading files and zipfiles" href="plot_download_file.html" />
@@ -35,8 +35,8 @@
           <div class="body" role="main">
             
   <div class="sphx-glr-download-link-note admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Click <a class="reference internal" href="#sphx-glr-download-gallery-plot-download-providers-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-gallery-plot-download-providers-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="download-from-dropbox-google-drive-and-github">
 <span id="sphx-glr-gallery-plot-download-providers-py"></span><h1>Download from Dropbox, Google Drive, and Github<a class="headerlink" href="#download-from-dropbox-google-drive-and-github" title="Permalink to this headline">¶</a></h1>
@@ -63,18 +63,18 @@ necessary.</p>
 </div>
 <img alt="../_images/sphx_glr_plot_download_providers_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_download_providers_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/vrs9pisj5rda2abg85fr40mlbkivlno2/1586989200000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading data from https://doc-0g-9c-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/fv0qmvpkro978s52tascis3s9rj63c96/1587047325000/01085013503681928164/*/0B8VZ4vaOYWZ3c3Y1c2ZQX01yREk?e=download (35 kB)
 
 
 file_sizes:   0%|                                   | 0.00/35.6k [00:00&lt;?, ?B/s]
-file_sizes: 100%|##########################| 35.6k/35.6k [00:00&lt;00:00, 12.7MB/s]
+file_sizes: 100%|##########################| 35.6k/35.6k [00:00&lt;00:00, 48.4MB/s]
 Successfully downloaded file to ./downloaded/citation.png
 </pre></div>
 </div>
 <p>The same works for Google Drive content.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Make sure your sharing options let any user access the file.</p>
+<p class="admonition-title">Note</p>
+<p>Make sure your sharing options let any user access the file.</p>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/choldgraf/download/blob/master/examples/data/citation.png&quot;</span>
 <span class="n">path2</span> <span class="o">=</span> <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s2">&quot;./downloaded/citation2.png&quot;</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -91,7 +91,7 @@ Successfully downloaded file to ./downloaded/citation.png
 
 
 file_sizes:   0%|                                    | 0.00/1.00 [00:00&lt;?, ?B/s]
-file_sizes: 65.8kB [00:00, 9.41MB/s]
+file_sizes: 65.8kB [00:00, 8.99MB/s]
 Successfully downloaded file to ./downloaded/citation2.png
 </pre></div>
 </div>
@@ -115,12 +115,14 @@ requires cookies and requests is smart about handling this.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Successfully downloaded file to ./downloaded/citation3.png
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.836 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.052 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-plot-download-providers-py">
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../_downloads/a8a8711ddbaa4fc65f9768175fcbdfa5/plot_download_providers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_providers.py</span></code></a></div>
-<div class="sphx-glr-download docutils container">
-<a class="reference download internal" download="" href="../_downloads/86ec3a3db3310bbb08ee44bac267b991/plot_download_providers.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_download_providers.ipynb</span></code></a></div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/97a9a0404b8958b9b946d45b3000c988/plot_download_providers.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_download_providers.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/73a025e492ccf822d80038f7364c11ad/plot_download_providers.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_download_providers.ipynb</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
@@ -168,17 +170,15 @@ requires cookies and requests is smart about handling this.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -195,7 +195,7 @@ requires cookies and requests is smart about handling this.</p>
       &copy;2017, Chris Holdgraf.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
