@@ -80,7 +80,7 @@ def download(
     if replace is False and op.exists(path):
         msg = (
             "Replace is False and data exists, so doing nothing. "
-            "Use replace==True to re-download the data."
+            "Use replace=True to re-download the data."
         )
     elif kind in ZIP_KINDS:
         # Create new folder for data if we need it
