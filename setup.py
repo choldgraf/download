@@ -6,15 +6,16 @@
 # Adapted from MNE-Python
 
 import os
-from pathlib import Path
 from setuptools import setup
 
 descr = """A quick module to help downloading files using python."""
 
-for line in Path("./download/__init__.py").read_text().split("\n"):
-    if line.startswith("__version__"):
-        __version__ = line.split("= ")[-1].strip('"')
-        break
+with open("./download/__init__.py", "r") as ff:
+    lines = ff.readlines()
+    for line in lines:
+        if line.startswith("__version__"):
+            __version__ = line.split("= ")[-1].strip().strip('"')
+            break
 
 DISTNAME = "download"
 DESCRIPTION = descr
