@@ -7,16 +7,15 @@
 
 import os
 import setuptools
+from pathlib import Path
 from setuptools import setup
 
 descr = """A quick module to help downloading files using python."""
 
-with open("./download/__init__.py", "r") as ff:
-    lines = ff.readlines()
-    for line in lines:
-        if line.startswith("__version__"):
-            __version__ = line.split("= ")[-1].strip('"')
-            break
+for line in Path("./download/__init__.py").read_text().split("\n"):
+    if line.startswith("__version__"):
+        __version__ = line.split("= ")[-1].strip('"')
+        break
 
 DISTNAME = "download"
 DESCRIPTION = descr
@@ -25,7 +24,6 @@ MAINTAINER_EMAIL = "choldgraf@gmail.com"
 URL = "https://github.com/choldgraf/download"
 LICENSE = "BSD (3-clause)"
 DOWNLOAD_URL = "https://github.com/choldgraf/download"
-VERSION = __version__
 with open("./README.rst", "r") as ff:
     LONG_DESCRIPTION = ff.read()
 
@@ -43,7 +41,7 @@ if __name__ == "__main__":
         long_description_content_type="text/x-rst",
         license=LICENSE,
         url=URL,
-        version=VERSION,
+        version=__version__,
         download_url=DOWNLOAD_URL,
         zip_safe=False,  # the package can run out of an .egg file
         classifiers=[
