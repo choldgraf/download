@@ -1,4 +1,4 @@
 """A tiny module to make downloading with python super easy."""
 from .download import download
 
-__version__ = "0.3.5"
+__version__ = "0.3.6dev0"

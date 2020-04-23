@@ -6,7 +6,6 @@
 # Adapted from MNE-Python
 
 import os
-import setuptools
 from pathlib import Path
 from setuptools import setup
 
