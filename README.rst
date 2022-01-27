@@ -1,13 +1,12 @@
-.. image:: https://codecov.io/gh/choldgraf/download/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/choldgraf/download
-  :align: left
-
-.. image:: https://circleci.com/gh/choldgraf/download.svg?style=svg
-    :target: https://circleci.com/gh/choldgraf/download
-    :align: left
+⚠️⚠️This package is not actively maintained⚠️⚠️
 
 Download
 --------
+
+⚠️⚠️This package is not actively maintained⚠️⚠️
+
+**Instead, I recommend that you use `pooch <https://github.com/fatiando/pooch>`_ which has more features, better implementation, and active maintenance.**
+
 A no-frills tool to download files from the web. It will
 attempt to be smart about not downloading data that's
 already there, checking to make sure that
