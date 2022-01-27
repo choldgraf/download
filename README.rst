@@ -5,7 +5,7 @@ Download
 
 ⚠️⚠️This package is not actively maintained⚠️⚠️
 
-**Instead, I recommend that you use `pooch <https://github.com/fatiando/pooch>`_ which has more features, better implementation, and active maintenance.**
+**Instead, I recommend that you use** `pooch <https://github.com/fatiando/pooch>`__ **which has more features, better implementation, and active maintenance.**
 
 A no-frills tool to download files from the web. It will
 attempt to be smart about not downloading data that's
